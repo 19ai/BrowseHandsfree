@@ -1,3 +1,7 @@
 {
-  "version": "v0.0.1"
+  "version": "v0.0.1",
+  "feed": {
+    "width": 320,
+    "height": 240
+  }
 }

@@ -6,7 +6,19 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    isSidebarActive: false
+    // Whether the sidebar is active (on mobile); shows #mask if true
+    isSidebarActive: false,
+
+    // Whether the main video element is feeding in from webcam
+    isWebcamStarted: false,
+
+    // The last requestAnimationFrame reference
+    lastFrame: null,
+
+    // Global references
+    refs: {
+      webcam: null
+    }
   },
 
   mutations: {
@@ -32,5 +44,12 @@ export default new Vuex.Store({
      * @param {STR} payload Must be in form [key, value]
      */
     merge (state, [key, values]) { state[key] = merge(state[key], values) }
+  },
+
+  actions: {
+    /**
+     * Our main draw loop. Note: Watch the `lastFrame` state in order to paint
+     */
+    drawLoop ({dispatch, commit}) { commit('set', ['lastFrame', requestAnimationFrame(() => { dispatch('drawLoop') })]) }
   }
 })

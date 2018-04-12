@@ -1,6 +1,7 @@
 <template lang="pug">
   div
     #mask(v-if='isSidebarActive' @click='clickedMask')
+    video(ref='webcam').hidden
     Header.show-sm
     .container.grid-xl
       .columns
@@ -25,6 +26,10 @@ export default {
     'isSidebarActive'
   ]),
 
+  mounted () {
+    this.$store.commit('merge', ['refs', {webcam: this.$refs.webcam}])
+  },
+
   methods: {
     clickedMask () {
       this.$store.commit('set', ['isSidebarActive', false])
@@ -36,6 +41,9 @@ export default {
 <style lang='stylus'>
   @import '../node_modules/spectre.css/dist/spectre.min.css'
   @import '../node_modules/spectre.css/dist/spectre-icons.min.css'
+
+  .hidden
+    display: none
 
   img
     max-width: 100%
