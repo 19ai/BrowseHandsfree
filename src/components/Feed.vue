@@ -1,6 +1,9 @@
 <template lang="pug">
-  div(v-if='isWebcamStarted')
-    canvas(ref='feed')
+  .text-center(v-if='isWebcamOn')
+    p
+      canvas(ref='feed')
+    p
+      button.btn.btn-primary(@click='stopFeed') Stop Webcam
 </template>
 
 <script>
@@ -9,7 +12,7 @@ import CONFIG from '@/config.json'
 
 export default {
   computed: mapState([
-    'isWebcamStarted',
+    'isWebcamOn',
     'lastFrame',
     'refs'
   ]),
@@ -21,6 +24,13 @@ export default {
   mounted () {
     this.$refs.feed.width = CONFIG.feed.width
     this.$refs.feed.height = CONFIG.feed.height
+  },
+
+  methods: {
+    stopFeed () {
+      this.$store.commit('set', ['isWebcamOn', false])
+      this.refs.webcam.srcObject.getTracks().forEach(track => track.stop())
+    }
   }
 }
 </script>

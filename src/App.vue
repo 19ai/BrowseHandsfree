@@ -1,7 +1,7 @@
 <template lang="pug">
   div
     #mask(v-if='isSidebarActive' @click='clickedMask')
-    video(ref='webcam').hidden
+    video.hidden(ref='webcam' playsinline)
     Header.show-sm
     .container.grid-xl
       .columns

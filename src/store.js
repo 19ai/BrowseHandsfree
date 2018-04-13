@@ -9,8 +9,11 @@ export default new Vuex.Store({
     // Whether the sidebar is active (on mobile); shows #mask if true
     isSidebarActive: false,
 
-    // Whether the main video element is feeding in from webcam
-    isWebcamStarted: false,
+    // Whether the webcam is initialized or not
+    isWebcamOn: false,
+
+    // Whether the feeds are running or not
+    isFeedOn: false,
 
     // The last requestAnimationFrame reference
     lastFrame: null,
