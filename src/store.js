@@ -6,6 +6,9 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    // Whether the BFRv4 SDK is initialized
+    isBRFInitialized: false,
+
     // Whether the sidebar is active (on mobile); shows #mask if true
     isSidebarActive: false,
 
