@@ -36,10 +36,8 @@ export default {
      * Resizes the feed to fit within view
      */
     resizeFeed: debounce(function () {
-      console.log(this.refs.webcam.videoWidth)
-      if (!this.refs.webcam.videoWidth) {
-        return this.resizeFeed()
-      }
+      if (!this.refs.webcam.videoWidth) { return this.resizeFeed() }
+
       const $webcam = this.refs.webcam
       const $feed = this.$refs.feed
       const $feedWrap = this.$refs.feedWrap
