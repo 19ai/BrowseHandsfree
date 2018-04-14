@@ -1,6 +1,6 @@
 <template lang="pug">
   .text-center(v-if='isWebcamOn')
-    p
+    p(ref='feedWrap')
       canvas(ref='feed')
     p
       button.btn.btn-primary(@click='stopFeed') Stop Webcam
@@ -8,6 +8,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import { debounce } from 'lodash'
 
 export default {
   computed: mapState([
@@ -17,10 +18,13 @@ export default {
   ]),
 
   watch: {
-    lastFrame () { this.$refs.feed.getContext('2d').drawImage(this.refs.webcam, 0, 0, this.refs.webcam.videoWidth, this.refs.webcam.videoHeight) }
+    lastFrame () { this.$refs.feed.getContext('2d').drawImage(this.refs.webcam, 0, 0, this.$refs.feed.width, this.$refs.feed.height) }
   },
 
-  mounted () { this.setFeedDimensions() },
+  mounted () {
+    this.resizeFeed()
+    window.addEventListener('resize', () => this.isWebcamOn && this.resizeFeed())
+  },
 
   methods: {
     stopFeed () {
@@ -29,16 +33,22 @@ export default {
     },
 
     /**
-     * Sets the feed dimensions to whatever the webcam
+     * Resizes the feed to fit within view
      */
-    setFeedDimensions () {
-      if (this.refs.webcam.videoWidth) {
-        this.$refs.feed.width = this.refs.webcam.videoWidth
-        this.$refs.feed.height = this.refs.webcam.videoHeight
-      } else {
-        setTimeout(() => this.setFeedDimensions(), 50)
+    resizeFeed: debounce(function () {
+      console.log(this.refs.webcam.videoWidth)
+      if (!this.refs.webcam.videoWidth) {
+        return this.resizeFeed()
       }
-    }
+      const $webcam = this.refs.webcam
+      const $feed = this.$refs.feed
+      const $feedWrap = this.$refs.feedWrap
+      const width = Math.min($webcam.videoWidth, $feedWrap.clientWidth)
+      const aspectRatio = $webcam.videoWidth / $webcam.videoHeight
+
+      $feed.width = width
+      $feed.height = width / aspectRatio
+    }, 50, {leading: true})
   }
 }
 </script>
