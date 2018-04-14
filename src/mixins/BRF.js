@@ -121,6 +121,7 @@ export default {
       if (this.isIOS11) {
         setTimeout(() => this.startWebcam, 2000)
       } else {
+        this.$store.commit('set', ['isTracking', true])
         this.trackFaces()
       }
 
@@ -157,7 +158,7 @@ export default {
         let face = faces[i]
 
         if (face.state === this.brf.BRFState.FACE_TRACKING_START || face.state === this.brf.BRFState.FACE_TRACKING) {
-          context.strokeStyle = '#00a0ff'
+          context.strokeStyle = '#f00'
 
           for (let k = 0; k < face.vertices.length; k += 2) {
             context.beginPath()
@@ -165,9 +166,23 @@ export default {
             context.stroke()
           }
 
-          requestAnimationFrame(this.trackFaces)
+          this.drawCursor(face)
         }
       }
+
+      requestAnimationFrame(this.trackFaces)
+    },
+
+    /**
+     * Draws the cursor
+     *
+     * @param {OBJ} face The face to draw for
+     */
+    drawCursor (face) {
+      const $feed = this.refs.feed
+      const left = ($feed.width - face.translationX + $feed.offsetLeft)
+      const top = face.translationY
+      this.refs.pointer.style = `left: ${left}px; top: ${top}px`
     }
   }
 }

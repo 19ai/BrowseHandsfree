@@ -1,6 +1,7 @@
 <template lang="pug">
   div
     #mask(v-if='isSidebarActive' @click='clickedMask')
+    Pointer
     video.hidden(ref='webcam' playsinline)
     Header.show-sm
     .container.grid-xl
@@ -14,12 +15,14 @@
 <script>
 import Sidebar from '@/components/Sidebar'
 import Header from '@/components/Header'
+import Pointer from '@/components/Pointer'
 import { mapState } from 'vuex'
 
 export default {
   components: {
     Sidebar,
-    Header
+    Header,
+    Pointer
   },
 
   computed: mapState([

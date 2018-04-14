@@ -18,6 +18,9 @@ export default new Vuex.Store({
     // Whether the feeds are running or not
     isFeedOn: false,
 
+    // Whether we are tracking faces or not
+    isTracking: false,
+
     // The last requestAnimationFrame reference
     lastFrame: null,
 
@@ -26,7 +29,12 @@ export default new Vuex.Store({
 
     // Global references
     refs: {
-      webcam: null
+      // The webcam video element
+      webcam: null,
+      // The main canvas element
+      feed: null,
+      // The cursor object
+      pointer: null
     }
   },
 
