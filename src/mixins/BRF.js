@@ -9,11 +9,18 @@ export default {
       // The BRF object
       brf: null,
 
+      // The BRF manager object
+      // @SEE https://tastenkunst.github.io/brfv4_docs/
+      brfManager: null,
+
       // The BRF file path
       brfPath: CONFIG.brf.wasmPath,
 
       // Whether we're on IOS11
-      isIOS11: false
+      isIOS11: false,
+
+      // The canvas resolution
+      resolution: null
     }
   },
 
@@ -79,6 +86,7 @@ export default {
         this.$webcam.srcObject.getTracks().forEach(track => track.stop())
       }
 
+      this.$store.commit('set', ['loadingText', 'Waking up AI...'])
       this.waitForSDK()
     },
 
@@ -105,7 +113,61 @@ export default {
      * Initialize the SDK
      */
     initSDK () {
-      console.log('initSDK')
+      this.resolution = new this.brf.Rectangle(0, 0, this.refs.feed.width, this.refs.feed.height)
+      this.brfManager = new this.brf.BRFManager()
+      this.brfManager.init(this.resolution, this.resolution, 'com.browsehandsfree')
+
+      // Start the camera (if on IOS11 or just start tracking)
+      if (this.isIOS11) {
+        setTimeout(() => this.startWebcam, 2000)
+      } else {
+        this.trackFaces()
+      }
+
+      this.$store.commit('set', ['loadingText', null])
+    },
+
+    /**
+     * Starts the webcam
+     */
+    startWebcam () {
+      navigator.mediaDevices.getUserMedia({video: true, audio: false})
+        .then(stream => {
+          this.refs.webcam.srcObject = stream
+          this.$store.dispatch('drawLoop')
+          this.$store.commit('set', ['isWebcamOn', true])
+
+          if (this.isIOS11) this.trackFaces()
+        })
+    },
+
+    /**
+     * Starts tracking faces
+     */
+    trackFaces () {
+      if (!this.isWebcamOn) return
+
+      let faces = null
+      let context = this.refs.feed.getContext('2d')
+
+      this.brfManager.update(context.getImageData(0, 0, this.resolution.width, this.resolution.height).data)
+      faces = this.brfManager.getFaces()
+
+      for (let i = 0; i < faces.length; i++) {
+        let face = faces[i]
+
+        if (face.state === this.brf.BRFState.FACE_TRACKING_START || face.state === this.brf.BRFState.FACE_TRACKING) {
+          context.strokeStyle = '#00a0ff'
+
+          for (let k = 0; k < face.vertices.length; k += 2) {
+            context.beginPath()
+            context.arc(face.vertices[k], face.vertices[k + 1], 2, 0, 2 * Math.PI)
+            context.stroke()
+          }
+
+          requestAnimationFrame(this.trackFaces)
+        }
+      }
     }
   }
 }

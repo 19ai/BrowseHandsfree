@@ -21,6 +21,9 @@ export default new Vuex.Store({
     // The last requestAnimationFrame reference
     lastFrame: null,
 
+    // Loading text (or null)
+    loadingText: null,
+
     // Global references
     refs: {
       webcam: null

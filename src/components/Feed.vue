@@ -2,6 +2,9 @@
   .text-center(v-if='isWebcamOn')
     p(ref='feedWrap')
       canvas(ref='feed')
+
+    slot
+
     p
       button.btn.btn-primary(@click='stopFeed') Stop Webcam
 </template>
@@ -22,6 +25,7 @@ export default {
   },
 
   mounted () {
+    this.$store.commit('merge', ['refs', {feed: this.$refs.feed}])
     this.resizeFeed()
     window.addEventListener('resize', () => this.isWebcamOn && this.resizeFeed())
   },

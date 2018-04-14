@@ -1,6 +1,9 @@
 <template lang="pug">
   div
     Feed(v-if='isWebcamOn')
+      div.text-center(v-if='loadingText')
+        .loading.loading-lg
+        p {{ loadingText }}
     .container.grid-xs(v-else)
       p.text-center.mt-2
         img(src='/static/browsehandsfree-favicon.png' width='100px')
@@ -25,25 +28,12 @@ export default {
   computed: mapState([
     'isBRFInitialized',
     'isWebcamOn',
+    'loadingText',
     'refs'
   ]),
 
   watch: {
     isWebcamOn () { this.isWebcamOn && !this.isBRFInitialized && this.initBRF() }
-  },
-
-  methods: {
-    /**
-     * Starts the webcam
-     */
-    startWebcam () {
-      navigator.mediaDevices.getUserMedia({video: true, audio: false})
-        .then(stream => {
-          this.refs.webcam.srcObject = stream
-          this.$store.dispatch('drawLoop')
-          this.$store.commit('set', ['isWebcamOn', true])
-        })
-    }
   }
 }
 </script>
