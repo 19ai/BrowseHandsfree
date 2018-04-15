@@ -21,7 +21,9 @@ export default {
   ]),
 
   watch: {
-    lastFrame () { this.$refs.feed.getContext('2d').drawImage(this.refs.webcam, 0, 0, this.$refs.feed.width, this.$refs.feed.height) }
+    lastFrame () {
+      if (this.refs.webcam && this.$refs.feed) this.$refs.feed.getContext('2d').drawImage(this.refs.webcam, 0, 0, this.$refs.feed.width, this.$refs.feed.height)
+    }
   },
 
   mounted () {

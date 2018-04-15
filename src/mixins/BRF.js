@@ -146,7 +146,7 @@ export default {
      * Starts tracking faces
      */
     trackFaces () {
-      if (!this.isWebcamOn) return
+      if (!this.isWebcamOn || !this.refs.feed) return
 
       let faces = null
       let context = this.refs.feed.getContext('2d')
@@ -166,23 +166,14 @@ export default {
             context.stroke()
           }
 
-          this.drawCursor(face)
+          this.$store.commit('set', ['lastFace', {
+            face,
+            time: new Date()
+          }])
         }
       }
 
       requestAnimationFrame(this.trackFaces)
-    },
-
-    /**
-     * Draws the cursor
-     *
-     * @param {OBJ} face The face to draw for
-     */
-    drawCursor (face) {
-      const $feed = this.refs.feed
-      const left = ($feed.width - face.translationX + $feed.offsetLeft)
-      const top = face.translationY
-      this.refs.pointer.style = `left: ${left}px; top: ${top}px`
     }
   }
 }

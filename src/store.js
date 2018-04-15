@@ -21,6 +21,13 @@ export default new Vuex.Store({
     // Whether we are tracking faces or not
     isTracking: false,
 
+    // The last face object discovered
+    // There are listeners on this object (@see Pointer.vue)
+    lastFace: null,
+
+    // An observable that
+    lastFaceTime: null,
+
     // The last requestAnimationFrame reference
     lastFrame: null,
 
