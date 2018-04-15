@@ -30,12 +30,7 @@ export default {
   ]),
 
   mounted () {
-    console.log('mounted', this.$refs.webcam)
     this.$store.commit('merge', ['refs', {webcam: this.$refs.webcam}])
-  },
-
-  created () {
-    console.log('created')
   },
 
   methods: {
