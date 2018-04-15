@@ -29,11 +29,28 @@ export default {
     'isBRFInitialized',
     'isWebcamOn',
     'loadingText',
+    'isTracking',
     'refs'
   ]),
 
   watch: {
     isWebcamOn () { this.isWebcamOn && !this.isBRFInitialized && this.initBRF() }
+  },
+
+  methods: {
+    /**
+     * Starts the webcam
+     */
+    startWebcam () {
+      navigator.mediaDevices.getUserMedia({video: true, audio: false})
+        .then(stream => {
+          this.refs.webcam.srcObject = stream
+          this.$store.commit('set', ['isWebcamOn', true])
+          this.$store.dispatch('drawLoop')
+
+          if (this.isIOS11 || this.isTracking) this.trackFaces()
+        })
+    }
   }
 }
 </script>

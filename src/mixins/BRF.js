@@ -1,4 +1,5 @@
 import CONFIG from '@/config.json'
+import { mapState } from 'vuex'
 
 export default {
   data () {
@@ -6,23 +7,19 @@ export default {
       // Detect whether we support ASM or
       asmSupport: typeof WebAssembly === 'object',
 
-      // The BRF object
-      brf: null,
-
-      // The BRF manager object
-      // @SEE https://tastenkunst.github.io/brfv4_docs/
-      brfManager: null,
-
       // The BRF file path
       brfPath: CONFIG.brf.wasmPath,
 
       // Whether we're on IOS11
-      isIOS11: false,
-
-      // The canvas resolution
-      resolution: null
+      isIOS11: false
     }
   },
+
+  computed: mapState([
+    'brf',
+    'brfManager',
+    'brfResolution'
+  ]),
 
   methods: {
     /**
@@ -97,7 +94,7 @@ export default {
       // Setup BRF config
       if (this.brf === null && window.initializeBRF) {
         let me = this
-        this.brf = {locateFile (filename) { return me.brfPath + filename }}
+        this.$store.commit('set', ['brf', {locateFile (filename) { return me.brfPath + filename }}])
         window.initializeBRF(this.brf)
       }
 
@@ -113,9 +110,9 @@ export default {
      * Initialize the SDK
      */
     initSDK () {
-      this.resolution = new this.brf.Rectangle(0, 0, this.refs.feed.width, this.refs.feed.height)
-      this.brfManager = new this.brf.BRFManager()
-      this.brfManager.init(this.resolution, this.resolution, 'com.browsehandsfree')
+      this.$store.commit('set', ['brfResolution', new this.brf.Rectangle(0, 0, this.refs.feed.width, this.refs.feed.height)])
+      this.$store.commit('set', ['brfManager', new this.brf.BRFManager()])
+      this.brfManager.init(this.brfResolution, this.brfResolution, 'com.browsehandsfree')
 
       // Start the camera (if on IOS11 or just start tracking)
       if (this.isIOS11) {
@@ -129,20 +126,6 @@ export default {
     },
 
     /**
-     * Starts the webcam
-     */
-    startWebcam () {
-      navigator.mediaDevices.getUserMedia({video: true, audio: false})
-        .then(stream => {
-          this.refs.webcam.srcObject = stream
-          this.$store.dispatch('drawLoop')
-          this.$store.commit('set', ['isWebcamOn', true])
-
-          if (this.isIOS11) this.trackFaces()
-        })
-    },
-
-    /**
      * Starts tracking faces
      */
     trackFaces () {
@@ -151,7 +134,7 @@ export default {
       let faces = null
       let context = this.refs.feed.getContext('2d')
 
-      this.brfManager.update(context.getImageData(0, 0, this.resolution.width, this.resolution.height).data)
+      this.brfManager.update(context.getImageData(0, 0, this.brfResolution.width, this.brfResolution.height).data)
       faces = this.brfManager.getFaces()
 
       for (let i = 0; i < faces.length; i++) {

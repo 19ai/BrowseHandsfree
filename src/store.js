@@ -6,6 +6,16 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    // The BRF Object
+    brf: null,
+
+    // The BRF Manager
+    brfManger: null,
+
+    // The BRF manager object
+    // @SEE https://tastenkunst.github.io/brfv4_docs/
+    brfResolution: null,
+
     // Whether the BFRv4 SDK is initialized
     isBRFInitialized: false,
 
@@ -74,6 +84,10 @@ export default new Vuex.Store({
     /**
      * Our main draw loop. Note: Watch the `lastFrame` state in order to paint
      */
-    drawLoop ({dispatch, commit}) { commit('set', ['lastFrame', requestAnimationFrame(() => { dispatch('drawLoop') })]) }
+    drawLoop ({dispatch, commit}) {
+      commit('set', ['lastFrame', requestAnimationFrame(() => {
+        dispatch('drawLoop')
+      })])
+    }
   }
 })
