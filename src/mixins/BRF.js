@@ -31,6 +31,7 @@ export default {
       this.loadBRF()
       this.loadBRFSDK()
 
+      window.addEventListener('resize', this.initBRFManger)
       this.$store.commit('set', ['isBRFInitialized', true])
     },
 
@@ -112,7 +113,7 @@ export default {
     initSDK () {
       this.$store.commit('set', ['brfResolution', new this.brf.Rectangle(0, 0, this.refs.feed.width, this.refs.feed.height)])
       this.$store.commit('set', ['brfManager', new this.brf.BRFManager()])
-      this.brfManager.init(this.brfResolution, this.brfResolution, 'com.browsehandsfree')
+      this.$store.dispatch('initBRFManager')
 
       // Start the camera (if on IOS11 or just start tracking)
       if (this.isIOS11) {

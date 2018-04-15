@@ -50,6 +50,8 @@ export default {
 
       $feed.width = width
       $feed.height = width / aspectRatio
+
+      this.$store.dispatch('initBRFManager')
     }, 50, {leading: true})
   }
 }

@@ -88,6 +88,11 @@ export default new Vuex.Store({
       commit('set', ['lastFrame', requestAnimationFrame(() => {
         dispatch('drawLoop')
       })])
-    }
+    },
+
+    /**
+     * Initializes the manager
+     */
+    initBRFManager ({state}) { state.brfManager && state.brfManager.init(state.brfResolution, state.brfResolution, 'com.browsehandsfree') }
   }
 })

@@ -1,5 +1,5 @@
 <template lang="pug">
-  #pointer(ref='pointer' :class='{hidden: !isTracking}')
+  #pointer(ref='pointer' :class='{hidden: !isTracking || !isWebcamOn}')
 </template>
 
 <script>
@@ -8,6 +8,7 @@ import { mapState } from 'vuex'
 export default {
   computed: mapState([
     'isTracking',
+    'isWebcamOn',
     'lastFace',
     'refs'
   ]),
