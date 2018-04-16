@@ -1,10 +1,8 @@
 <template lang="pug">
-  .text-center(v-if='isWebcamOn')
+  .text-center(v-if='isWebcamOn').mt-2
     p(ref='feedWrap')
       canvas(ref='feed')
-
     slot
-
     p
       button.btn.btn-primary(@click='stopFeed') Stop Webcam
 </template>
@@ -21,9 +19,7 @@ export default {
   ]),
 
   watch: {
-    lastFrame () {
-      if (this.refs.webcam && this.$refs.feed) this.$refs.feed.getContext('2d').drawImage(this.refs.webcam, 0, 0, this.$refs.feed.width, this.$refs.feed.height)
-    }
+    lastFrame () { if (this.refs.webcam && this.refs.feed) this.$refs.feed.getContext('2d').drawImage(this.refs.webcam, 0, 0, this.$refs.feed.width, this.$refs.feed.height) }
   },
 
   mounted () {
@@ -52,6 +48,8 @@ export default {
 
       $feed.width = width
       $feed.height = width / aspectRatio
+
+      this.$store.dispatch('initBRFManager')
     }, 50, {leading: true})
   }
 }

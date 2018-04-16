@@ -10,23 +10,31 @@
           Sidebar
         .column.col-10.col-xl-9.col-md-8.col-sm-12
           router-view
+          Feed(v-if='isWebcamOn')
+            div.text-center(v-if='loadingText')
+              .loading.loading-lg
+              p {{ loadingText }}
 </template>
 
 <script>
 import Sidebar from '@/components/Sidebar'
 import Header from '@/components/Header'
+import Feed from '@/components/Feed'
 import Pointer from '@/components/Pointer'
 import { mapState } from 'vuex'
 
 export default {
   components: {
-    Sidebar,
+    Feed,
     Header,
-    Pointer
+    Pointer,
+    Sidebar
   },
 
   computed: mapState([
-    'isSidebarActive'
+    'isSidebarActive',
+    'isWebcamOn',
+    'loadingText'
   ]),
 
   mounted () {
@@ -44,6 +52,7 @@ export default {
 <style lang='stylus'>
   @import '../node_modules/spectre.css/dist/spectre.min.css'
   @import '../node_modules/spectre.css/dist/spectre-icons.min.css'
+  @import '../node_modules/spectre.css/dist/spectre-exp.min.css'
 
   .hidden
     display: none
@@ -55,6 +64,10 @@ export default {
   hr
     border: none
     border-bottom: 1px solid rgba(0, 0, 0, .15)
+
+  .slider
+    margin-bottom: 0.4rem
+    margin-top: 0.4rem
 
   #mask
     z-index: 100

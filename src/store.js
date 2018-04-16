@@ -1,11 +1,50 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { merge } from 'lodash'
+import lockr from 'lockr'
+
+let settings = lockr.get('settings') || {}
+settings = merge({
+  cursor: {
+    size: 15,
+    click: {
+      sensitivity: 0.8
+    }
+  },
+
+  offset: {
+    x: 0,
+    y: 0
+  },
+
+  speed: {
+    x: 1,
+    y: 1,
+    xLog: 1,
+    yLog: 1,
+    max: 10
+  }
+}, settings)
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    // The BRF Object
+    brf: null,
+
+    // The BRF Manager
+    brfManger: null,
+
+    // The BRF manager object
+    // @SEE https://tastenkunst.github.io/brfv4_docs/
+    brfResolution: null,
+
+    // Different gesture confidences
+    gesture: {
+      smile: 0
+    },
+
     // Whether the BFRv4 SDK is initialized
     isBRFInitialized: false,
 
@@ -42,7 +81,9 @@ export default new Vuex.Store({
       feed: null,
       // The cursor object
       pointer: null
-    }
+    },
+
+    settings
   },
 
   mutations: {
@@ -74,6 +115,15 @@ export default new Vuex.Store({
     /**
      * Our main draw loop. Note: Watch the `lastFrame` state in order to paint
      */
-    drawLoop ({dispatch, commit}) { commit('set', ['lastFrame', requestAnimationFrame(() => { dispatch('drawLoop') })]) }
+    drawLoop ({dispatch, commit}) {
+      commit('set', ['lastFrame', requestAnimationFrame(() => {
+        dispatch('drawLoop')
+      })])
+    },
+
+    /**
+     * Initializes the manager
+     */
+    initBRFManager ({state}) { state.brfManager && state.brfManager.init(state.brfResolution, state.brfResolution, 'com.browsehandsfree') }
   }
 })
