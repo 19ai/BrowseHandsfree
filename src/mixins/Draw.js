@@ -7,8 +7,9 @@ export default {
      */
     drawVertices (face) {
       const context = this.refs.feed.getContext('2d')
+      let color = this.gesture.smile * 255
 
-      context.strokeStyle = this.gesture.smile === 1 ? '#ff0' : '#f00'
+      context.strokeStyle = `rgba(255, ${color}, 0, .75)`
 
       for (let i = 0; i < face.vertices.length; i += 2) {
         context.beginPath()
@@ -31,8 +32,9 @@ export default {
       const context = this.refs.feed.getContext('2d')
       const tris = face.triangles
       const verts = face.vertices
+      let color = this.gesture.smile * 255
 
-      context.strokeStyle = this.gesture.smile === 1 ? '#ff0' : '#f00'
+      context.strokeStyle = `rgba(255, ${color}, 0, .15)`
 
       for (let i = 0; i < tris.length; i++) {
         let tri = [tris[i], tris[i + 1], tris[i + 2]]

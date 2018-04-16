@@ -8,6 +8,7 @@ import { mapState } from 'vuex'
 export default {
   computed: mapState([
     'brf',
+    'cursor',
     'isTracking',
     'isWebcamOn',
     'lastFace',
@@ -27,7 +28,8 @@ export default {
   },
 
   watch: {
-    lastFace (face) { this.drawCursor(face) }
+    lastFace (face) { this.drawCursor(face) },
+    'gesture.smile' (smile) { if (smile === 1) this.triggerClick() }
   },
 
   mounted () { this.$store.commit('set', ['refs', {pointer: this.$refs.pointer}]) },
@@ -53,9 +55,10 @@ export default {
       left += Math.sin(face.rotationY) * (this.settings.speed.xLog * window.innerWidth) + $feed.offsetLeft
       top += Math.sin(face.rotationX) * (this.settings.speed.yLog * window.innerHeight)
 
-      this.detectSmile(face)
-
       this.refs.pointer.style = `left: ${left}px; top: ${top}px; width: ${this.settings.cursor.size}px; height: ${this.settings.cursor.size}px; border-radius: ${this.settings.cursor.size}px; background: ${this.color}`
+      this.$store.commit('merge', ['cursor', {position: {left, top}}])
+
+      this.detectSmile(face)
     },
 
     /**
@@ -118,6 +121,15 @@ export default {
         (p1.x - p0.x) * (p1.x - p0.x) +
         (p1.y - p0.y) * (p1.y - p0.y)
       )
+    },
+
+    /**
+     * Triggers a click
+     */
+    triggerClick () {
+      const $el = document.elementFromPoint(this.cursor.position.left, this.cursor.position.top)
+      console.log($el)
+      $el.click()
     }
   }
 }

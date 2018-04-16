@@ -40,6 +40,13 @@ export default new Vuex.Store({
     // @SEE https://tastenkunst.github.io/brfv4_docs/
     brfResolution: null,
 
+    cursor: {
+      position: {
+        left: 0,
+        top: 0
+      }
+    },
+
     // Different gesture confidences
     gesture: {
       smile: 0
