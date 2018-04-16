@@ -9,6 +9,10 @@ settings = merge({
     size: 15,
     click: {
       sensitivity: 0.8
+    },
+    scroll: {
+      sensitivity: 1,
+      sensitivityLog: 1
     }
   },
 
