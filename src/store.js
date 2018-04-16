@@ -40,6 +40,11 @@ export default new Vuex.Store({
     // @SEE https://tastenkunst.github.io/brfv4_docs/
     brfResolution: null,
 
+    // Different gesture confidences
+    gesture: {
+      smile: 0
+    },
+
     // Whether the BFRv4 SDK is initialized
     isBRFInitialized: false,
 

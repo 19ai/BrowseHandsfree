@@ -18,7 +18,8 @@ export default {
   computed: mapState([
     'brf',
     'brfManager',
-    'brfResolution'
+    'brfResolution',
+    'gesture'
   ]),
 
   methods: {
@@ -142,7 +143,7 @@ export default {
         let face = faces[i]
 
         if (face.state === this.brf.BRFState.FACE_TRACKING_START || face.state === this.brf.BRFState.FACE_TRACKING) {
-          context.strokeStyle = '#f00'
+          context.strokeStyle = this.gesture.smile === 1 ? '#ff0' : '#f00'
 
           for (let k = 0; k < face.vertices.length; k += 2) {
             context.beginPath()
