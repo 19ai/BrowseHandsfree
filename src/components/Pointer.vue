@@ -136,16 +136,25 @@ export default {
      * Maybe scrolls the page
      */
     maybeScrollPage () {
-      let scrollBy = 0
-
-      // Scroll up
-      if (this.cursor.position.top < 0) {
-        scrollBy = this.cursor.position.top
-      } else if (this.cursor.position.top > window.innerHeight) {
-        scrollBy = this.cursor.position.top - window.innerHeight
+      let scrollBy = {
+        x: 0,
+        y: 0
       }
 
-      scrollBy && window.scrollBy(0, scrollBy)
+      // Vertical Scroll
+      if (this.cursor.position.top < 0) {
+        scrollBy.y = this.cursor.position.top
+      } else if (this.cursor.position.top > window.innerHeight) {
+        scrollBy.y = this.cursor.position.top - window.innerHeight
+      }
+      // Horiz Scroll
+      if (this.cursor.position.left < 0) {
+        scrollBy.x = this.cursor.position.left
+      } else if (this.cursor.position.left > window.innerWidth) {
+        scrollBy.x = this.cursor.position.left - window.innerWidth
+      }
+
+      scrollBy && window.scrollBy(scrollBy.x, scrollBy.y)
     }
   }
 }
