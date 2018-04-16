@@ -32,6 +32,12 @@
             | Cursor Size
             input.ml-2(type='number' min='1' max='200' step='any' v-model='settings.cursor.size')
           input#setting-vert-speed.slider.mr-2(type='range' min='1' max='200' step='any' v-model='settings.cursor.size')
+
+        .form-group
+          label.form-label
+            | Click Sensitivity
+            input.ml-2(type='number' min='0' max='1' step='any' v-model='settings.cursor.click.sensitivity')
+          input#setting-vert-speed.slider.mr-2(type='range' min='0' max='1' step='any' v-model='settings.cursor.click.sensitivity')
 </template>
 
 <script>

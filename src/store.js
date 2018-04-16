@@ -6,7 +6,10 @@ import lockr from 'lockr'
 let settings = lockr.get('settings') || {}
 settings = merge({
   cursor: {
-    size: 15
+    size: 15,
+    click: {
+      sensitivity: 0.8
+    }
   },
 
   offset: {
