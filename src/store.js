@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { merge } from 'lodash'
+// import lockr from 'lockr'
 
 Vue.use(Vuex)
 
@@ -52,6 +53,14 @@ export default new Vuex.Store({
       feed: null,
       // The cursor object
       pointer: null
+    },
+
+    settings: {
+      speed: {
+        x: 50,
+        y: 50,
+        max: 100
+      }
     }
   },
 

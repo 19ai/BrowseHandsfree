@@ -10,7 +10,8 @@ export default {
     'isTracking',
     'isWebcamOn',
     'lastFace',
-    'refs'
+    'refs',
+    'settings'
   ]),
 
   watch: {
@@ -37,8 +38,8 @@ export default {
       let left = -face.translationX * ratio.width + $feed.width + $feed.offsetLeft
       let top = face.translationY * ratio.height + $feed.offsetTop
 
-      left += Math.sin(face.rotationY) * window.innerWidth + $feed.offsetLeft
-      top += Math.sin(face.rotationX) * window.innerHeight
+      left += Math.sin(face.rotationY) * (this.settings.speed.x * window.innerWidth) + $feed.offsetLeft
+      top += Math.sin(face.rotationX) * (this.settings.speed.y * window.innerHeight)
 
       this.refs.pointer.style = `left: ${left}px; top: ${top}px`
     }
