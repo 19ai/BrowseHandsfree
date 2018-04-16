@@ -141,20 +141,9 @@ export default {
 
       for (let i = 0; i < faces.length; i++) {
         let face = faces[i]
-
         if (face.state === this.brf.BRFState.FACE_TRACKING_START || face.state === this.brf.BRFState.FACE_TRACKING) {
-          context.strokeStyle = this.gesture.smile === 1 ? '#ff0' : '#f00'
-
-          for (let k = 0; k < face.vertices.length; k += 2) {
-            context.beginPath()
-            context.arc(face.vertices[k], face.vertices[k + 1], 2, 0, 2 * Math.PI)
-            context.stroke()
-          }
-
-          this.$store.commit('set', ['lastFace', {
-            face,
-            time: new Date()
-          }])
+          this.drawVertices(face)
+          this.drawTriangles(face)
         }
       }
 
