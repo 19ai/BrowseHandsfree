@@ -1,7 +1,23 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { merge } from 'lodash'
-// import lockr from 'lockr'
+import lockr from 'lockr'
+
+let settings = lockr.get('settings') || {}
+settings = merge({
+  offset: {
+    x: 0,
+    y: 0
+  },
+
+  speed: {
+    x: 1,
+    y: 1,
+    xLog: 1,
+    yLog: 1,
+    max: 10
+  }
+}, settings)
 
 Vue.use(Vuex)
 
@@ -55,15 +71,7 @@ export default new Vuex.Store({
       pointer: null
     },
 
-    settings: {
-      speed: {
-        x: 1,
-        y: 1,
-        xLog: 1,
-        yLog: 1,
-        max: 10
-      }
-    }
+    settings
   },
 
   mutations: {

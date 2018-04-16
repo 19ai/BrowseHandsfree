@@ -15,10 +15,23 @@
             | Vertical Sensitivity
             input.ml-2(type='number' v-model='settings.speed.yLog' min='0.1' step='any' :max='settings.speed.max')
           input#setting-vert-speed.slider.mr-2(type='range' min='0.1' step='any' :max='settings.speed.max' v-model='settings.speed.y')
+
+        .form-group
+          label.form-label
+            | X-Offset
+            input.ml-2(type='number' min='-1000' max='1000' step='any' v-model='settings.offset.x')
+          input#setting-horiz-speed.slider.mr-2(type='range' min='-1000' max='1000' step='any' v-model='settings.offset.x')
+        .form-group
+          label.form-label
+            | Y-Offset
+            input.ml-2(type='number' min='-1000' max='1000' step='any' v-model='settings.offset.y')
+          input#setting-vert-speed.slider.mr-2(type='range' min='-1000' max='1000' step='any' v-model='settings.offset.y')
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import { debounce } from 'lodash'
+import lockr from 'lockr'
 
 export default {
   computed: {
@@ -36,6 +49,11 @@ export default {
       let settings = Object.assign({}, this.settings)
       settings.speed.xLog = this.sensitivity(this.settings.speed.x)
       this.$store.commit('merge', ['settings', settings])
+    },
+
+    settings: {
+      handler: debounce(function () { lockr.set('settings', this.settings) }, 250, true),
+      deep: true
     }
   },
 
@@ -53,12 +71,6 @@ export default {
       let scale = (actualMax - actualMin) / (rangeMax - rangeMin)
 
       return Math.exp(actualMin + scale * (base - rangeMin))
-    },
-
-    /**
-     * Persist settings locally
-     */
-    saveSettings () {
     }
   }
 }
