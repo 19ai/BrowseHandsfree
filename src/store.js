@@ -57,9 +57,11 @@ export default new Vuex.Store({
 
     settings: {
       speed: {
-        x: 50,
-        y: 50,
-        max: 100
+        x: 1,
+        y: 1,
+        xLog: 1,
+        yLog: 1,
+        max: 10
       }
     }
   },

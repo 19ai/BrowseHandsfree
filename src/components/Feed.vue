@@ -1,10 +1,8 @@
 <template lang="pug">
-  .text-center(v-if='isWebcamOn')
+  .text-center(v-if='isWebcamOn').mt-2
     p(ref='feedWrap')
       canvas(ref='feed')
-
     slot
-
     p
       button.btn.btn-primary(@click='stopFeed') Stop Webcam
 </template>

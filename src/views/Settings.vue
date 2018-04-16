@@ -6,13 +6,15 @@
         .card-subtitle.text-grray Adjust sensitivity
       .card-body
         .form-group
-          label.form-label(for='setting-horiz-speed') Horizontal Sensitivity
-          input#setting-horiz-speed.slider.mr-2(type='range' step='1' min='0' :max='speed.max' v-model='speed.x')
-          input(type='number' v-model='speed.x' min='0' :max='speed.max')
+          label.form-label
+            | Horizontal Sensitivity
+            input.ml-2(type='number' v-model='settings.speed.xLog' min='0.1' step='any' :max='settings.speed.max')
+          input#setting-horiz-speed.slider.mr-2(type='range' min='0.1' step='any' :max='settings.speed.max' v-model='settings.speed.x')
         .form-group
-          label.form-label(for='setting-vert-speed') Vertical Sensitivity
-          input#setting-vert-speed.slider.mr-2(type='range' step='1' min='0' :max='speed.max' v-model='speed.y')
-          input(type='number' v-model='speed.y' min='0' :max='speed.max')
+          label.form-label
+            | Vertical Sensitivity
+            input.ml-2(type='number' v-model='settings.speed.yLog' min='0.1' step='any' :max='settings.speed.max')
+          input#setting-vert-speed.slider.mr-2(type='range' min='0.1' step='any' :max='settings.speed.max' v-model='settings.speed.y')
 </template>
 
 <script>
@@ -23,18 +25,18 @@ export default {
     ...mapState(['settings'])
   },
 
-  data () {
-    return {
-      speed: {
-        x: 50,
-        y: 50,
-        max: 100
-      }
-    }
-  },
+  watch: {
+    'settings.speed.y' () {
+      let settings = Object.assign({}, this.settings)
+      settings.speed.yLog = this.sensitivity(this.settings.speed.y)
+      this.$store.commit('merge', ['settings', settings])
+    },
 
-  mounted () {
-    this.speed = this.settings.speed
+    'settings.speed.x' () {
+      let settings = Object.assign({}, this.settings)
+      settings.speed.xLog = this.sensitivity(this.settings.speed.x)
+      this.$store.commit('merge', ['settings', settings])
+    }
   },
 
   methods: {
@@ -44,10 +46,10 @@ export default {
      * @param  {NUM} base The value on the slider
      */
     sensitivity (base) {
-      let rangeMin = 0
-      let rangeMax = this.speed.max
-      let actualMin = Math.log(0.15)
-      let actualMax = Math.log(10)
+      let rangeMin = 0.1
+      let rangeMax = this.settings.speed.max
+      let actualMin = Math.log(0.1)
+      let actualMax = Math.log(this.settings.speed.max)
       let scale = (actualMax - actualMin) / (rangeMax - rangeMin)
 
       return Math.exp(actualMin + scale * (base - rangeMin))
