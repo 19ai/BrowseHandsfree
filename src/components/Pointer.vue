@@ -132,19 +132,20 @@ export default {
     height: 15px
     border-radius: 15px
     background: rgba(255, 0, 0, 0.85)
+    border: 2px solid rgba(255, 0, 0, 0.85)
 
     &.pulse
-      animation: 0.25s pulse 1
+      animation: 0.35s pulse 1
 
 @keyframes pulse
   0%
     box-shadow: 0 0 0 0 rgba(255, 0, 0, .5)
   10%
-    box-shadow: 0 0 0 10px rgba(255, 180, 0, 0.85)
+    box-shadow: 0 0 0 10px rgba(255, 50, 0, 0.85)
   20%
-    box-shadow: 0 0 0 30px rgba(255, 255, 0, 0.85)
+    box-shadow: 0 0 0 30px rgba(255, 155, 0, 0.85)
   90%
-    box-shadow: 0 0 0 60px rgba(255, 255, 0, 0.25)
+    box-shadow: 0 0 0 120px rgba(255, 255, 0, 0.25)
   100%
-    box-shadow: 0 0 0 120px rgba(255, 255, 0, 0)
+    box-shadow: 0 0 0 200px rgba(255, 255, 0, 0)
 </style>
