@@ -59,6 +59,7 @@ export default {
       this.$store.commit('merge', ['cursor', {position: {left, top}}])
 
       this.detectSmile(face)
+      this.maybeScrollPage()
     },
 
     /**
@@ -128,8 +129,23 @@ export default {
      */
     triggerClick () {
       const $el = document.elementFromPoint(this.cursor.position.left, this.cursor.position.top)
-      console.log($el)
-      $el.click()
+      $el && $el.click()
+    },
+
+    /**
+     * Maybe scrolls the page
+     */
+    maybeScrollPage () {
+      let scrollBy = 0
+
+      // Scroll up
+      if (this.cursor.position.top < 0) {
+        scrollBy = this.cursor.position.top
+      } else if (this.cursor.position.top > window.innerHeight) {
+        scrollBy = this.cursor.position.top - window.innerHeight
+      }
+
+      scrollBy && window.scrollBy(0, scrollBy)
     }
   }
 }
@@ -142,6 +158,7 @@ export default {
     z-index: 99999999
     width: 15px
     height: 15px
+    transform-origin: center
     border-radius: 15px
     background: rgba(255, 0, 0, 0.85)
     border: 2px solid rgba(255, 0, 0, 0.85)
