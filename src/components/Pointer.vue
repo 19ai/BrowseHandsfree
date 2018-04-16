@@ -41,7 +41,7 @@ export default {
       left += Math.sin(face.rotationY) * (this.settings.speed.xLog * window.innerWidth) + $feed.offsetLeft
       top += Math.sin(face.rotationX) * (this.settings.speed.yLog * window.innerHeight)
 
-      this.refs.pointer.style = `left: ${left}px; top: ${top}px`
+      this.refs.pointer.style = `left: ${left}px; top: ${top}px; width: ${this.settings.cursor.size}px; height: ${this.settings.cursor.size}px; border-radius: ${this.settings.cursor.size}px`
     }
   }
 }

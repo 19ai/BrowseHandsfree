@@ -26,6 +26,12 @@
             | Y-Offset
             input.ml-2(type='number' min='-1000' max='1000' step='any' v-model='settings.offset.y')
           input#setting-vert-speed.slider.mr-2(type='range' min='-1000' max='1000' step='any' v-model='settings.offset.y')
+
+        .form-group
+          label.form-label
+            | Cursor Size
+            input.ml-2(type='number' min='1' max='200' step='any' v-model='settings.cursor.size')
+          input#setting-vert-speed.slider.mr-2(type='range' min='1' max='200' step='any' v-model='settings.cursor.size')
 </template>
 
 <script>
