@@ -129,7 +129,13 @@ export default {
      */
     triggerClick () {
       const $el = document.elementFromPoint(this.cursor.position.left, this.cursor.position.top)
-      $el && $el.click()
+
+      if ($el) {
+        const ev = document.createEvent('MouseEvent')
+        // @see https://stackoverflow.com/questions/3277369/how-to-simulate-a-click-by-using-x-y-coordinates-in-javascript
+        ev.initMouseEvent('click', true, true, window, null, this.cursor.position.left, this.cursor.position.top, 0, 0, false, false, false, false, 0, null)
+        $el.dispatchEvent(ev)
+      }
     },
 
     /**
