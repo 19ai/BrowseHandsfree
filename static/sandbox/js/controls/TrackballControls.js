@@ -3,15 +3,9 @@
  * @author Mark Lundin 	/ http://mark-lundin.com
  * @author Simone Manini / http://daron1337.github.io
  * @author Luca Antiga 	/ http://lantiga.github.io
-
- ** three-trackballcontrols module
- ** @author Jon Lim / http://jonlim.ca
  */
 
-var THREE = window.THREE || require('three');
-
-var TrackballControls;
-module.exports = TrackballControls = function ( object, domElement ) {
+THREE.TrackballControls = function ( object, domElement ) {
 
 	var _this = this;
 	var STATE = { NONE: - 1, ROTATE: 0, ZOOM: 1, PAN: 2, TOUCH_ROTATE: 3, TOUCH_ZOOM_PAN: 4 };
@@ -39,11 +33,6 @@ module.exports = TrackballControls = function ( object, domElement ) {
 	this.minDistance = 0;
 	this.maxDistance = Infinity;
 
-	/**
-	 * `KeyboardEvent.keyCode` values which should trigger the different
-	 * interaction states. Each element can be a single code or an array
-	 * of codes. All elements are required.
-	 */
 	this.keys = [ 65 /*A*/, 83 /*S*/, 68 /*D*/ ];
 
 	// internals
@@ -361,25 +350,6 @@ module.exports = TrackballControls = function ( object, domElement ) {
 
 	};
 
-	// helpers
-
-	/**
-	 * Checks if the pressed key is any of the configured modifier keys for
-	 * a specified behavior.
-	 *
-	 * @param {number | number[]} keys
-	 * @param {number} key
-	 *
-	 * @returns {boolean} `true` if `keys` contains or equals `key`
-	 */
-	function containsKey(keys, key) {
-		if (Array.isArray(keys)) {
-			return keys.indexOf(key) !== -1;
-		} else {
-			return keys === key;
-		}
-	}
-
 	// listeners
 
 	function keydown( event ) {
@@ -394,15 +364,15 @@ module.exports = TrackballControls = function ( object, domElement ) {
 
 			return;
 
-		} else if ( containsKey( _this.keys[ STATE.ROTATE ], event.keyCode ) && ! _this.noRotate ) {
+		} else if ( event.keyCode === _this.keys[ STATE.ROTATE ] && ! _this.noRotate ) {
 
 			_state = STATE.ROTATE;
 
-		} else if ( containsKey( _this.keys[ STATE.ZOOM ], event.keyCode ) && ! _this.noZoom ) {
+		} else if ( event.keyCode === _this.keys[ STATE.ZOOM ] && ! _this.noZoom ) {
 
 			_state = STATE.ZOOM;
 
-		} else if ( containsKey( _this.keys[ STATE.PAN ], event.keyCode ) && ! _this.noPan ) {
+		} else if ( event.keyCode === _this.keys[ STATE.PAN ] && ! _this.noPan ) {
 
 			_state = STATE.PAN;
 
@@ -499,6 +469,8 @@ module.exports = TrackballControls = function ( object, domElement ) {
 	function mousewheel( event ) {
 
 		if ( _this.enabled === false ) return;
+
+		if ( _this.noZoom === true ) return;
 
 		event.preventDefault();
 		event.stopPropagation();
@@ -651,6 +623,5 @@ module.exports = TrackballControls = function ( object, domElement ) {
 
 };
 
-function preventEvent( event ) { event.preventDefault(); }
-
-TrackballControls.prototype = Object.create( THREE.EventDispatcher.prototype );
+THREE.TrackballControls.prototype = Object.create( THREE.EventDispatcher.prototype );
+THREE.TrackballControls.prototype.constructor = THREE.TrackballControls;
