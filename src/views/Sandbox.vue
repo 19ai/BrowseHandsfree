@@ -6,7 +6,7 @@
 import { mapState } from 'vuex'
 
 export default {
-  computed: mapState(['lastFace']),
+  computed: mapState(['lastFace', 'cursor']),
 
   mounted () {
     window.addEventListener('resize', this.onWindowResize)

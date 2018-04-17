@@ -56,7 +56,15 @@ THREE.TrackballControls = function ( object, domElement ) {
 
 	_zoomStart = new THREE.Vector2(),
 	_zoomEnd = new THREE.Vector2(),
-  _zPos = 0,
+
+  lastXPos = 0,
+  lastYPos = 0,
+  lastZPos = 0,
+  xPos = 0,
+  yPos = 0,
+  zPos = 0,
+
+  zPos = 0,
 
 	_touchZoomDistanceStart = 0,
 	_touchZoomDistanceEnd = 0,
@@ -329,7 +337,7 @@ THREE.TrackballControls = function ( object, domElement ) {
 			lastPosition.copy( _this.object.position );
 
 		} else {
-      _this.object.position.z = 500 - _zPos
+      VRUpdates()
       _this.dispatchEvent(changeEvent)
     }
 
@@ -630,8 +638,28 @@ THREE.TrackballControls = function ( object, domElement ) {
   function onMessage (msg) {
     if (msg.data.from === 'BrowseHandsfree') {
       let face = msg.data.face.face
-      _zPos = face.scale * 1.5
+      lastXPos = xPos
+      lastYPos = yPos
+
+      zPos = face.scale * 1.5
+      xPos = face.translationX
+      yPos = 250 - face.translationY
     }
+  }
+
+  /**
+   * Applies Headtracking transformations
+   */
+  function VRUpdates () {
+    // X/Y
+    _panStart.x = xPos * -0.005
+    _panStart.y = yPos * -0.01
+    _panEnd.x = lastXPos * -0.005
+    _panEnd.y = lastYPos * -0.01
+    _this.panCamera()
+
+    // Z
+    _this.object.position.z = 500 - zPos
   }
 };
 
