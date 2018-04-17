@@ -56,6 +56,7 @@ THREE.TrackballControls = function ( object, domElement ) {
 
 	_zoomStart = new THREE.Vector2(),
 	_zoomEnd = new THREE.Vector2(),
+  _zPos = 0,
 
 	_touchZoomDistanceStart = 0,
 	_touchZoomDistanceEnd = 0,
@@ -327,7 +328,10 @@ THREE.TrackballControls = function ( object, domElement ) {
 
 			lastPosition.copy( _this.object.position );
 
-		}
+		} else {
+      _this.object.position.z = 500 - _zPos
+      _this.dispatchEvent(changeEvent)
+    }
 
 	};
 
@@ -616,11 +620,19 @@ THREE.TrackballControls = function ( object, domElement ) {
 	window.addEventListener( 'keydown', keydown, false );
 	window.addEventListener( 'keyup', keyup, false );
 
+  window.addEventListener( 'message', onMessage, false );
+
 	this.handleResize();
 
 	// force an update at start
 	this.update();
 
+  function onMessage (msg) {
+    if (msg.data.from === 'BrowseHandsfree') {
+      let face = msg.data.face.face
+      _zPos = face.scale * 1.5
+    }
+  }
 };
 
 THREE.TrackballControls.prototype = Object.create( THREE.EventDispatcher.prototype );

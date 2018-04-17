@@ -34,8 +34,9 @@
 	<body>
 		<div id="container"></div>
 		<div id="info">
-			<a href="http://threejs.org" target="_blank" rel="noopener">three.js</a> - trackball controls example<br />
-			MOVE mouse &amp; press LEFT/A: rotate, MIDDLE/S: zoom, RIGHT/D: pan
+			BrowseHandsfree VR Display Sandbox
+      <br>
+			Try moving around the display to view it from a different perspective!
 		</div>
 
 		<script src="../js/three.min.js"></script>
@@ -43,13 +44,12 @@
 		<script src="../js/controls/TrackballControls.js"></script>
 
 		<script src="../js/Detector.js"></script>
-		<script src="../js/libs/stats.min.js"></script>
 
 		<script>
 
 			if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
-			var container, stats;
+			var container;
 
 			var camera, controls, scene, renderer;
 
@@ -124,9 +124,6 @@
 				container = document.getElementById( 'container' );
 				container.appendChild( renderer.domElement );
 
-				stats = new Stats();
-				container.appendChild( stats.dom );
-
 				//
 
 				window.addEventListener( 'resize', onWindowResize, false );
@@ -159,7 +156,6 @@
 			function render() {
 
 				renderer.render( scene, camera );
-				stats.update();
 
 			}
 

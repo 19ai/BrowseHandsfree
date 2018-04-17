@@ -3,14 +3,35 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
+  computed: mapState(['lastFace']),
+
   mounted () {
     window.addEventListener('resize', this.onWindowResize)
     this.onWindowResize()
   },
 
+  watch: {
+    lastFace (face) { this.maybeUpdateCamera(face) }
+  },
+
   methods: {
-    onWindowResize () { this.$refs.container.height = window.innerHeight }
+    onWindowResize () { this.$refs.container.height = window.innerHeight },
+
+    /**
+     * Attempts to update the camera position within the iframe demo
+     *
+     * @param {OBJ} face The face object
+     */
+    maybeUpdateCamera (face) {
+      this.$refs.container.contentWindow.postMessage({
+        from: 'BrowseHandsfree',
+        cursor: this.cursor,
+        face
+      }, '*')
+    }
   }
 }
 </script>
