@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Start from '@/views/Start'
 import Settings from '@/views/Settings'
+import Sandbox from '@/views/Sandbox'
 
 Vue.use(Router)
 
@@ -16,6 +17,11 @@ export default new Router({
       path: '/settings',
       name: 'Settings',
       component: Settings
+    },
+    {
+      path: '/sandbox',
+      name: 'Sandbox',
+      component: Sandbox
     }
   ]
 })
