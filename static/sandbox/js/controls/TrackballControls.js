@@ -5,13 +5,14 @@
  * @author Luca Antiga 	/ http://lantiga.github.io
  */
 
-THREE.TrackballControls = function ( object, domElement ) {
+THREE.TrackballControls = function ( object, domElement, scene ) {
 
 	var _this = this;
 	var STATE = { NONE: - 1, ROTATE: 0, ZOOM: 1, PAN: 2, TOUCH_ROTATE: 3, TOUCH_ZOOM_PAN: 4 };
 
 	this.object = object;
-	this.domElement = ( domElement !== undefined ) ? domElement : document;
+  this.scene = scene;
+	this.domElement = ( domElement ) ? domElement : document;
 
 	// API
 
@@ -63,8 +64,10 @@ THREE.TrackballControls = function ( object, domElement ) {
   xPos = 0,
   yPos = 0,
   zPos = 0,
-
-  zPos = 0,
+  cursorX = 0,
+  cursorY = 0,
+  mouseVector = new THREE.Vector2(),
+  touchedObject = null,
 
 	_touchZoomDistanceStart = 0,
 	_touchZoomDistanceEnd = 0,
@@ -644,6 +647,9 @@ THREE.TrackballControls = function ( object, domElement ) {
       zPos = face.scale * 1.5
       xPos = face.translationX
       yPos = 250 - face.translationY
+
+      cursorX = msg.data.cursor.position.left + 230
+      cursorY = msg.data.cursor.position.top
     }
   }
 
@@ -660,6 +666,33 @@ THREE.TrackballControls = function ( object, domElement ) {
 
     // Z
     _this.object.position.z = 500 - zPos
+
+    /**
+     * Raycasting
+     */
+    mouseVector.x = cursorX
+    mouseVector.y = cursorY
+    let lookVector = new THREE.Vector3(0, 0, -1)
+    lookVector = _this.object.localToWorld(lookVector)
+    lookVector.sub(_this.object.position)
+
+    // Create raycaster
+    let raycaster = new THREE.Raycaster(_this.object.position, lookVector)
+    let intersects = raycaster.intersectObjects(scene.children)
+
+    // Determin touched element
+    if (intersects.length > 0) {
+      if (touchedObject != intersects[0].object) {
+        if (touchedObject) touchedObject.material.emissive.setHex(touchedObject.currentHex)
+
+        touchedObject = intersects[0].object
+        touchedObject.currentHex = touchedObject.material.emissive.getHex()
+        touchedObject.material.emissive.setHex(0xff0000)
+      }
+    } else {
+      if (touchedObject) touchedObject.material.emissive.setHex(touchedObject.currentHex)
+      touchedObject = null
+    }
   }
 };
 
