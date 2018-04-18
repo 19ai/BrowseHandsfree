@@ -9,6 +9,10 @@ settings = merge({
     size: 15,
     click: {
       sensitivity: 0.8
+    },
+    scroll: {
+      sensitivity: 1,
+      sensitivityLog: 1
     }
   },
 
@@ -39,6 +43,13 @@ export default new Vuex.Store({
     // The BRF manager object
     // @SEE https://tastenkunst.github.io/brfv4_docs/
     brfResolution: null,
+
+    cursor: {
+      position: {
+        left: 0,
+        top: 0
+      }
+    },
 
     // Different gesture confidences
     gesture: {

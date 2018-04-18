@@ -18,6 +18,8 @@
         router-link.btn.btn-link(to='/') Start Here
       div
         router-link.btn.btn-link(to='/settings') Settings
+      div
+        router-link.btn.btn-link(to='/sandbox') Sandbox
 </template>
 
 <script>

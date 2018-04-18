@@ -8,6 +8,7 @@ import { mapState } from 'vuex'
 export default {
   computed: mapState([
     'brf',
+    'cursor',
     'isTracking',
     'isWebcamOn',
     'lastFace',
@@ -27,7 +28,8 @@ export default {
   },
 
   watch: {
-    lastFace (face) { this.drawCursor(face) }
+    lastFace (face) { this.drawCursor(face) },
+    'gesture.smile' (smile) { if (smile === 1) this.triggerClick() }
   },
 
   mounted () { this.$store.commit('set', ['refs', {pointer: this.$refs.pointer}]) },
@@ -53,9 +55,11 @@ export default {
       left += Math.sin(face.rotationY) * (this.settings.speed.xLog * window.innerWidth) + $feed.offsetLeft
       top += Math.sin(face.rotationX) * (this.settings.speed.yLog * window.innerHeight)
 
-      this.detectSmile(face)
-
       this.refs.pointer.style = `left: ${left}px; top: ${top}px; width: ${this.settings.cursor.size}px; height: ${this.settings.cursor.size}px; border-radius: ${this.settings.cursor.size}px; background: ${this.color}`
+      this.$store.commit('merge', ['cursor', {position: {left, top}}])
+
+      this.detectSmile(face)
+      this.maybeScrollPage()
     },
 
     /**
@@ -118,6 +122,47 @@ export default {
         (p1.x - p0.x) * (p1.x - p0.x) +
         (p1.y - p0.y) * (p1.y - p0.y)
       )
+    },
+
+    /**
+     * Triggers a click
+     */
+    triggerClick () {
+      const $el = document.elementFromPoint(this.cursor.position.left, this.cursor.position.top)
+
+      if ($el) {
+        const ev = document.createEvent('MouseEvent')
+        // @see https://stackoverflow.com/questions/3277369/how-to-simulate-a-click-by-using-x-y-coordinates-in-javascript
+        ev.initMouseEvent('click', true, true, window, null, this.cursor.position.left, this.cursor.position.top, 0, 0, false, false, false, false, 0, null)
+        $el.dispatchEvent(ev)
+      }
+    },
+
+    /**
+     * Maybe scrolls the page
+     */
+    maybeScrollPage () {
+      let scrollBy = {
+        x: 0,
+        y: 0
+      }
+
+      // Vertical Scroll
+      if (this.cursor.position.top < 0) {
+        scrollBy.y = this.cursor.position.top
+      } else if (this.cursor.position.top > window.innerHeight) {
+        scrollBy.y = this.cursor.position.top - window.innerHeight
+      }
+      // Horiz Scroll
+      if (this.cursor.position.left < 0) {
+        scrollBy.x = this.cursor.position.left
+      } else if (this.cursor.position.left > window.innerWidth) {
+        scrollBy.x = this.cursor.position.left - window.innerWidth
+      }
+
+      scrollBy.x *= this.settings.cursor.scroll.sensitivityLog
+      scrollBy.y *= this.settings.cursor.scroll.sensitivityLog
+      scrollBy && window.scrollBy(scrollBy.x, scrollBy.y)
     }
   }
 }
@@ -130,6 +175,7 @@ export default {
     z-index: 99999999
     width: 15px
     height: 15px
+    transform-origin: center
     border-radius: 15px
     background: rgba(255, 0, 0, 0.85)
     border: 2px solid rgba(255, 0, 0, 0.85)

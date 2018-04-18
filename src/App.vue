@@ -1,15 +1,15 @@
 <template lang="pug">
-  div
+  div.full-height
     #mask(v-if='isSidebarActive' @click='clickedMask')
     Pointer
     video.hidden(ref='webcam' playsinline)
     Header.show-sm
-    .container.grid-xl
-      .columns
+    .container.grid-xl.full-height
+      .columns.full-height
         .column.col-2.col-xl-3.col-md-4
           Sidebar
-        .column.col-10.col-xl-9.col-md-8.col-sm-12
-          router-view
+        .column.col-10.col-xl-9.col-md-8.col-sm-12.full-height
+          router-view.full-height
           Feed(v-if='isWebcamOn')
             div.text-center(v-if='loadingText')
               .loading.loading-lg
@@ -54,6 +54,9 @@ export default {
   @import '../node_modules/spectre.css/dist/spectre-icons.min.css'
   @import '../node_modules/spectre.css/dist/spectre-exp.min.css'
 
+  html, body
+    height: 100%
+
   .hidden
     display: none
 
@@ -80,4 +83,7 @@ export default {
     height: 100%
     width: 100%
     cursor: pointer
+
+  .full-height
+    height: 100%
 </style>
