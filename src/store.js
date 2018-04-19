@@ -13,7 +13,10 @@ settings = merge({
     scroll: {
       sensitivity: 1,
       sensitivityLog: 1
-    }
+    },
+
+    // Number of frames a click is active for
+    clickFrameBuffer: 1
   },
 
   offset: {
@@ -48,7 +51,10 @@ export default new Vuex.Store({
       position: {
         left: 0,
         top: 0
-      }
+      },
+      isDown: false,
+      clicked: false,
+      framesSinceClicked: 0
     },
 
     // Different gesture confidences
@@ -135,6 +141,28 @@ export default new Vuex.Store({
     /**
      * Initializes the manager
      */
-    initBRFManager ({state}) { state.brfManager && state.brfManager.init(state.brfResolution, state.brfResolution, 'com.browsehandsfree') }
+    initBRFManager ({state}) { state.brfManager && state.brfManager.init(state.brfResolution, state.brfResolution, 'com.browsehandsfree') },
+
+    /**
+     * Sets the click states
+     */
+    updateClick ({state}) {
+      if (state.cursor.isDown) state.cursor.framesSinceClicked++
+
+      // Clicked and held, so release the "clicked"
+      if (state.cursor.clicked && state.cursor.isDown && state.cursor.framesSinceClicked > state.settings.cursor.clickFrameBuffer) { state.cursor.clicked = false }
+
+      // Just Clicked
+      if (state.gesture.smile === 1 && !state.cursor.isDown && !state.cursor.clicked) {
+        state.cursor.isDown = true
+        state.cursor.clicked = true
+        state.cursor.framesSinceClicked = 0
+      }
+
+      if (state.gesture.smile !== 1) {
+        state.cursor.isDown = false
+        state.cursor.clicked = false
+      }
+    }
   }
 })

@@ -20,6 +20,8 @@
         router-link.btn.btn-link(to='/settings') Settings
       div
         router-link.btn.btn-link(to='/sandbox') Sandbox
+      div
+        router-link.btn.btn-link(to='/timeline') Timeline
 </template>
 
 <script>

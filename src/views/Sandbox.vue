@@ -29,6 +29,10 @@ export default {
       this.$refs.container.contentWindow.postMessage({
         from: 'BrowseHandsfree',
         cursor: this.cursor,
+        offset: {
+          left: this.$refs.container.offsetLeft,
+          top: this.$refs.container.offsetTop - window.scrollY
+        },
         face
       }, '*')
     }
@@ -41,4 +45,5 @@ export default {
     width: 100%
     border: none
     height: 100%
+    position: relative
 </style>

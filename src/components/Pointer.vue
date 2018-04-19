@@ -95,6 +95,7 @@ export default {
       if (smileFactor > this.settings.cursor.click.sensitivity) smileFactor = 1
 
       this.$store.commit('merge', ['gesture', {smile: smileFactor}])
+      this.$store.dispatch('updateClick')
       this.color = `rgb(255, ${smileFactor * 255}, 0)`
     },
 

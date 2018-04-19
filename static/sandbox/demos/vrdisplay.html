@@ -86,11 +86,12 @@
 				scene.fog = new THREE.FogExp2( 0xffffff, 0.002 );
 
 				var geometry = new THREE.SphereGeometry( 10, 16, 16 );
-				var material = new THREE.MeshPhongMaterial( { color: 0xffffff, flatShading: true } );
+        window.phongMaterial = new THREE.MeshPhongMaterial( { color: 0xffffff, flatShading: true } );
+        window.basicMaterial = new THREE.MeshPhongMaterial({color: 0xff0000, flatShading: true});
 
 				for ( var i = 0; i < 500; i ++ ) {
 
-					var mesh = new THREE.Mesh( geometry, material );
+					var mesh = new THREE.Mesh( geometry, window.phongMaterial );
 					mesh.position.x = ( Math.random() - 1 ) * 1000;
 					mesh.position.y = ( Math.random() - 0.5 ) * 1000;
 					mesh.position.z = ( Math.random() - 0.5 ) * 1000;
