@@ -69,6 +69,7 @@ THREE.TrackballControls = function ( object, domElement, scene ) {
   mouseVector = new THREE.Vector2(),
   touchedObject = null,
   raycaster = new THREE.Raycaster(),
+  hasClicked = false,
 
 	_touchZoomDistanceStart = 0,
 	_touchZoomDistanceEnd = 0,
@@ -651,6 +652,7 @@ THREE.TrackballControls = function ( object, domElement, scene ) {
 
       cursorX = msg.data.cursor.position.left - msg.data.offset.left
       cursorY = msg.data.cursor.position.top - msg.data.offset.top
+      hasClicked = msg.data.cursor.clicked
     }
   }
 
@@ -688,6 +690,8 @@ THREE.TrackballControls = function ( object, domElement, scene ) {
         touchedObject = intersects[0].object
         touchedObject.material = window.basicMaterial
       }
+
+      if (hasClicked) touchedObject.visible = false
     } else {
       if (touchedObject) touchedObject.material = window.phongMaterial
       touchedObject = null
