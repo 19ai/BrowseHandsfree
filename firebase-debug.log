@@ -1,0 +1,46 @@
+[debug] [2018-04-19T15:35:33.470Z] ----------------------------------------------------------------------
+[debug] [2018-04-19T15:35:33.485Z] Command:       /usr/local/bin/node /usr/local/bin/firebase deploy
+[debug] [2018-04-19T15:35:33.486Z] CLI Version:   3.18.4
+[debug] [2018-04-19T15:35:33.486Z] Platform:      linux
+[debug] [2018-04-19T15:35:33.486Z] Node Version:  v8.3.0
+[debug] [2018-04-19T15:35:33.486Z] Time:          Thu Apr 19 2018 08:35:33 GMT-0700 (PDT)
+[debug] [2018-04-19T15:35:33.486Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-04-19T15:35:33.565Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-04-19T15:35:33.566Z] > authorizing via signed-in user
+[debug] [2018-04-19T15:35:33.577Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2018-04-19T15:35:33.579Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ { refresh_token: '1/T6b8OAiGdag1hALwax8RpwXLhG2GO8VvMCj4jKjem0s',
+  client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  grant_type: 'refresh_token',
+  scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
+ Thu Apr 19 2018 08:35:33 GMT-0700 (PDT)
+[debug] [2018-04-19T15:35:34.165Z] <<< HTTP RESPONSE 200
+[debug] [2018-04-19T15:35:34.174Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/browsehandsfree  
+  
+ Thu Apr 19 2018 08:35:34 GMT-0700 (PDT)
+[info] 
+[warn] ⚠  Your CLI authentication needs to be updated to take advantage of new features.
+[warn] ⚠  Please run firebase login --reauth
+[info] 
+[debug] [2018-04-19T15:35:44.204Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase"]
+[debug] [2018-04-19T15:35:44.205Z] > authorizing via signed-in user
+[debug] [2018-04-19T15:35:44.205Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2018-04-19T15:35:44.206Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ { refresh_token: '1/T6b8OAiGdag1hALwax8RpwXLhG2GO8VvMCj4jKjem0s',
+  client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  grant_type: 'refresh_token',
+  scope: 'email https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
+ Thu Apr 19 2018 08:35:44 GMT-0700 (PDT)
+[debug] [2018-04-19T15:35:47.431Z] <<< HTTP RESPONSE 200
+[debug] [2018-04-19T15:35:47.436Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/browsehandsfree  
+  
+ Thu Apr 19 2018 08:35:47 GMT-0700 (PDT)
+[debug] [2018-04-19T15:36:00.569Z] Error: getaddrinfo EAI_AGAIN admin.firebase.com:443
+    at Object._errnoException (util.js:1022:11)
+    at errnoException (dns.js:58:15)
+    at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:95:26)
+[error] 
+[error] Error: Server Error. getaddrinfo EAI_AGAIN admin.firebase.com:443

@@ -31,7 +31,7 @@ export default {
         cursor: this.cursor,
         offset: {
           left: this.$refs.container.offsetLeft,
-          top: this.$refs.container.offsetTop + window.scrollY
+          top: this.$refs.container.offsetTop - window.scrollY
         },
         face
       }, '*')
