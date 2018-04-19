@@ -660,6 +660,10 @@ THREE.TrackballControls = function ( object, domElement, scene ) {
     cursorX = ev.clientX
     cursorY = ev.clientY
   })
+  document.body.addEventListener('click', (ev) => {
+    hasClicked = true
+    setTimeout(function () { hasClicked = false }, 10)
+  })
 
   /**
    * Applies Headtracking transformations
@@ -691,7 +695,7 @@ THREE.TrackballControls = function ( object, domElement, scene ) {
         touchedObject.material = window.basicMaterial
       }
 
-      if (hasClicked) touchedObject.visible = false
+      if (hasClicked) { touchedObject.visible = false }
     } else {
       if (touchedObject) touchedObject.material = window.phongMaterial
       touchedObject = null
