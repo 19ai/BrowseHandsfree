@@ -68,6 +68,7 @@ THREE.TrackballControls = function ( object, domElement, scene ) {
   cursorY = 0,
   mouseVector = new THREE.Vector2(),
   touchedObject = null,
+  raycaster = new THREE.Raycaster(),
 
 	_touchZoomDistanceStart = 0,
 	_touchZoomDistanceEnd = 0,
@@ -644,14 +645,19 @@ THREE.TrackballControls = function ( object, domElement, scene ) {
       lastXPos = xPos
       lastYPos = yPos
 
-      zPos = face.scale * 1.5
       xPos = face.translationX
       yPos = 250 - face.translationY
+      zPos = face.scale * 1.5
 
-      cursorX = msg.data.cursor.position.left + 230
-      cursorY = msg.data.cursor.position.top
+      cursorX = msg.data.cursor.position.left - msg.data.offset.left
+      cursorY = msg.data.cursor.position.top - msg.data.offset.top
     }
   }
+
+  document.body.addEventListener('mousemove', (ev) => {
+    cursorX = ev.clientX
+    cursorY = ev.clientY
+  })
 
   /**
    * Applies Headtracking transformations
@@ -670,27 +676,20 @@ THREE.TrackballControls = function ( object, domElement, scene ) {
     /**
      * Raycasting
      */
-    mouseVector.x = cursorX
-    mouseVector.y = cursorY
-    let lookVector = new THREE.Vector3(0, 0, -1)
-    lookVector = _this.object.localToWorld(lookVector)
-    lookVector.sub(_this.object.position)
+    mouseVector.x = cursorX / window.innerWidth * 2 - 1
+    mouseVector.y = cursorY / window.innerHeight * -2 + 1
+    raycaster.setFromCamera(mouseVector, _this.object)
 
-    // Create raycaster
-    let raycaster = new THREE.Raycaster(_this.object.position, lookVector)
     let intersects = raycaster.intersectObjects(scene.children)
-
-    // Determin touched element
     if (intersects.length > 0) {
       if (touchedObject != intersects[0].object) {
-        if (touchedObject) touchedObject.material.emissive.setHex(touchedObject.currentHex)
+        if (touchedObject) touchedObject.material = window.phongMaterial
 
         touchedObject = intersects[0].object
-        touchedObject.currentHex = touchedObject.material.emissive.getHex()
-        touchedObject.material.emissive.setHex(0xff0000)
+        touchedObject.material = window.basicMaterial
       }
     } else {
-      if (touchedObject) touchedObject.material.emissive.setHex(touchedObject.currentHex)
+      if (touchedObject) touchedObject.material = window.phongMaterial
       touchedObject = null
     }
   }
