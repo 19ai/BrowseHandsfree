@@ -42,8 +42,5 @@ export default {
 
 <style scoped lang="stylus">
   iframe
-    width: 100%
-    border: none
     height: 100%
-    position: relative
 </style>
