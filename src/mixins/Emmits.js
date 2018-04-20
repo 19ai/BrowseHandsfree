@@ -1,4 +1,12 @@
+import { mapState } from 'vuex'
+
 export default {
+  computed: mapState(['lastFace', 'cursor']),
+
+  watch: {
+    lastFace (face) { this.maybeUpdateCamera(face) }
+  },
+
   methods: {
     /**
      * Attempts to update the camera position within the iframe demo

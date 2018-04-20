@@ -673,12 +673,50 @@ var sketch = function( p ) {
   };
 
   var deviceEvent = function() {
-    if (p.mouseIsPressed) {
-      devicePressed(p.mouseX, p.mouseY);
+    // if (p.mouseIsPressed) {
+    //   devicePressed(p.mouseX, p.mouseY);
+    // } else {
+    //   deviceReleased();
+    // }
+  }
+
+  /**
+   * PilotBorwser Listener
+   */
+  var BrowseHandsfree = {
+    x: 0,
+    y: 0,
+    clicked: false,
+    isDown: false
+  }
+
+  var onMessage = function (msg) {
+    if (msg.data.from === 'BrowseHandsfree') {
+      BrowseHandsfree = {
+        x: msg.data.cursor.position.left - msg.data.offset.left,
+        y: msg.data.cursor.position.top - msg.data.offset.top,
+        clicked: msg.data.cursor.clicked,
+        isDown: msg.data.cursor.isDown
+      }
+
+      // Draw or release
+      if (BrowseHandsfree.isDown) {
+        devicePressed(BrowseHandsfree.x, BrowseHandsfree.y)
+      } else {
+        deviceReleased()
+      }
+
+      // Click on things
+      if (BrowseHandsfree.clicked) {
+        let $el = document.elementFromPoint(BrowseHandsfree.x, BrowseHandsfree.y)
+        $el && $el.click()
+      }
+
     } else {
-      deviceReleased();
+      deviceReleased()
     }
   }
+  window.addEventListener('message', onMessage, false)
 
 };
 var custom_p5 = new p5(sketch, 'sketch');
