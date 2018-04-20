@@ -57,6 +57,11 @@ export default {
   html, body
     height: 100%
 
+  iframe
+    border: none
+    width: 100%
+    position: relative
+
   .hidden
     display: none
 

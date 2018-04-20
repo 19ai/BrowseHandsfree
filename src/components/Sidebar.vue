@@ -19,7 +19,9 @@
       div
         router-link.btn.btn-link(to='/settings') Settings
       div
-        router-link.btn.btn-link(to='/sandbox') Sandbox
+        router-link.btn.btn-link(to='/3d-sandbox') 3D Sandbox
+      div
+        router-link.btn.btn-link(to='/sketch-sandbox') Sketch Sandbox
       div
         router-link.btn.btn-link(to='/timeline') Timeline
 </template>
