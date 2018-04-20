@@ -7,7 +7,11 @@
 </template>
 
 <script>
+import Emmits from '@/mixins/Emmits'
+
 export default {
+  mixins: [Emmits],
+
   data () {
     return {
       isLoading: true

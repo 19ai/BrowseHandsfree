@@ -4,8 +4,11 @@
 
 <script>
 import { mapState } from 'vuex'
+import Emmits from '@/mixins/Emmits'
 
 export default {
+  mixins: [Emmits],
+
   computed: mapState(['lastFace', 'cursor']),
 
   mounted () {
@@ -18,24 +21,7 @@ export default {
   },
 
   methods: {
-    onWindowResize () { this.$refs.container.height = window.innerHeight },
-
-    /**
-     * Attempts to update the camera position within the iframe demo
-     *
-     * @param {OBJ} face The face object
-     */
-    maybeUpdateCamera (face) {
-      this.$refs.container.contentWindow.postMessage({
-        from: 'BrowseHandsfree',
-        cursor: this.cursor,
-        offset: {
-          left: this.$refs.container.offsetLeft,
-          top: this.$refs.container.offsetTop - window.scrollY
-        },
-        face
-      }, '*')
-    }
+    onWindowResize () { this.$refs.container.height = window.innerHeight }
   }
 }
 </script>
