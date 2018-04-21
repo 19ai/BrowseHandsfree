@@ -9,7 +9,14 @@
 <p align="center"><a href="#about">About</a> • <a href="#building">Building</a> • <a href="#links">Links</a> • <a href="#privacy">Privacy</a> • <a href="#license">License</a>
 
 ## About
-BrowseHandsfree is a Chrome Extension that helps you browse the web handsfree via your webcam. More info coming soon!
+BrowseHandsfree is a tool that will let you browse the web handsfree. It does this through your webcam by positioning a cursor over the part of the screen that you're looking at, and click things by smiling!
+
+This project currently uses the trial version of [BRFv4](https://tastenkunst.github.io/brfv4_docs/), and we'll be using [Tensorflow.js](https://js.tensorflow.org/) to train custom gestures. The project is built on top of [VueJS](https://vuejs.org/).
+
+### Contributing and Hacking
+All pull requests are welcome, though we encourage you to review our [Trello Board](https://trello.com/b/vAsQoO6P) to see what things are priority. We also have a [discussion forum](https://forum.browsehandsfree.com) (via Discourse)!
+
+The most important file is `/src/components/Pointer.vue`, which contains the `drawCursor`, `detectSmile`, and `maybeScrollPage`. These methods provide a good starting point to branch into the rest of the app.
 
 ## Building
 ``` bash

@@ -1,5 +1,5 @@
 {
-  "version": "v0.0.1",
+  "version": "v0.0.3",
   "brf": {
     "wasmPath": "/static/libs/brf/brf_wasm/",
     "asmPath": "/static/libs/brf/brf_asmjs/",
