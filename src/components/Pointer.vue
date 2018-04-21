@@ -49,8 +49,8 @@ export default {
         height: window.innerHeight / $feed.height
       }
       // The canvas is mirrored, so left needs a few more operations
-      let left = -face.translationX * ratio.width + $feed.width + parseInt(this.settings.offset.x)
-      let top = face.translationY * ratio.height + parseInt(this.settings.offset.y)
+      let left = -face.translationX * ratio.width + $feed.width + parseInt(this.settings.offset.x) - this.settings.cursor.size / 2
+      let top = face.translationY * ratio.height + parseInt(this.settings.offset.y) - this.settings.cursor.size / 2
 
       left += Math.sin(face.rotationY) * (this.settings.speed.xLog * window.innerWidth) + $feed.offsetLeft
       top += Math.sin(face.rotationX) * (this.settings.speed.yLog * window.innerHeight)
