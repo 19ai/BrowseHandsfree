@@ -71,9 +71,6 @@ export default new Vuex.Store({
     // Whether the webcam is initialized or not
     isWebcamOn: false,
 
-    // Whether the feeds are running or not
-    isFeedOn: false,
-
     // Whether we are tracking faces or not
     isTracking: false,
 

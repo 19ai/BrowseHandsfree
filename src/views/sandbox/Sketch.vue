@@ -12,6 +12,7 @@
 
 <script>
 import paper from 'paper'
+import { distance } from 'mathjs'
 import { mapState } from 'vuex'
 
 export default {
@@ -21,11 +22,15 @@ export default {
     lastFace (face) { this.draw() }
   },
 
-  date () {
+  data () {
     return {
       path: null,
       offsets: null,
-      tool: new paper.Tool()
+      tool: new paper.Tool(),
+      lastPosition: {
+        x: 0,
+        y: 0
+      }
     }
   },
 
@@ -57,7 +62,7 @@ export default {
       // Start a new line
       if (this.cursor.clicked) {
         this.path = new paper.Path()
-        this.path.strokeWidth = 10
+        this.path.strokeWidth = 2
         this.path.add(this.getPoint())
       }
     },
@@ -66,10 +71,16 @@ export default {
      * Gets the cursor position as a Paper point
      */
     getPoint () {
-      return {
+      let position = {
         x: this.cursor.position.left - this.offsets.left,
         y: this.cursor.position.top - this.offsets.top - window.scrollY
       }
+      let dist = distance([this.lastPosition.x, this.lastPosition.y], [position.x, position.y])
+      let newPosition = this.lastPosition
+
+      if (dist > 10) this.lastPosition = newPosition = position
+
+      return newPosition
     },
 
     clearSketch () {

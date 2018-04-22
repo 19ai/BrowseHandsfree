@@ -16,14 +16,14 @@
     .links
       div
         router-link.btn.btn-link(to='/') Start Here
-      div
-        router-link.btn.btn-link(to='/settings') Settings
-      div
+      div(v-if='isTracking')
+        router-link.btn.btn-link(to='/sketch-sandbox') Sketch Sandbox
+      div(v-if='isTracking')
         router-link.btn.btn-link(to='/3d-sandbox') 3D Sandbox
       div
-        router-link.btn.btn-link(to='/sketch-sandbox') Sketch Sandbox
-      div
         router-link.btn.btn-link(to='/timeline') Timeline
+      div(v-if='isTracking')
+        router-link.btn.btn-link(to='/settings') Settings
 </template>
 
 <script>
@@ -37,7 +37,7 @@ export default {
     }
   },
 
-  computed: mapState(['isSidebarActive'])
+  computed: mapState(['isSidebarActive', 'isTracking'])
 }
 </script>
 

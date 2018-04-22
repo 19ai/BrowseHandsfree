@@ -1,10 +1,15 @@
 <template lang="pug">
   .text-center(v-if='isWebcamOn').mt-2
     p(ref='feedWrap')
-      canvas(ref='feed')
+      canvas.flip-h(ref='feed')
     slot
-    p
-      button.btn.btn-primary(@click='stopFeed') Stop Webcam
+    .container.grid-xs.text-left(v-if='isTracking')
+      .card.mb-2
+        .card-body
+          p Awesome, you're almost ready to start! Please wait until there's a wireframe around your face above. Once there is, it's time to test things out!
+          p <abbr class="tooltip" data-tooltip="this will be configurable in the future">Smiling activates clicks</abbr>.
+        .card-footer.text-center
+          button.btn.btn-primary(@click='stopFeed') Stop Webcam
 </template>
 
 <script>
@@ -14,6 +19,7 @@ import { debounce } from 'lodash'
 export default {
   computed: mapState([
     'isWebcamOn',
+    'isTracking',
     'lastFrame',
     'refs'
   ]),
@@ -54,12 +60,3 @@ export default {
   }
 }
 </script>
-
-<style scoped lang="stylus">
-  canvas
-    -moz-transform: scale(-1, 1)
-    -webkit-transform: scale(-1, 1)
-    -o-transform: scale(-1, 1)
-    transform: scale(-1, 1)
-    filter: FlipH
-</style>

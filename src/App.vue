@@ -50,32 +50,7 @@ export default {
 </script>
 
 <style lang='stylus'>
-  @import '../node_modules/spectre.css/dist/spectre.min.css'
-  @import '../node_modules/spectre.css/dist/spectre-icons.min.css'
-  @import '../node_modules/spectre.css/dist/spectre-exp.min.css'
-
-  html, body
-    height: 100%
-
-  iframe
-    border: none
-    width: 100%
-    position: relative
-
-  .hidden
-    display: none
-
-  img
-    max-width: 100%
-    display: inline-block
-
-  hr
-    border: none
-    border-bottom: 1px solid rgba(0, 0, 0, .15)
-
-  .slider
-    margin-bottom: 0.4rem
-    margin-top: 0.4rem
+  @import './styles/main'
 
   #mask
     z-index: 100
@@ -88,7 +63,4 @@ export default {
     height: 100%
     width: 100%
     cursor: pointer
-
-  .full-height
-    height: 100%
 </style>
