@@ -1,10 +1,7 @@
 <template lang="pug">
   div.full-height(style='position: relative')
     h1.h5.mt-2 Sketch Sandbox
-    p
-      | Draw anywhere in the white space below by holding a smile!
-      br
-      | <b>Note:</b> This demo currently only works with face tracking.
+    p Draw anywhere in the white space below by holding a smile!
     p
       button.btn.btn-primary(@click='clearSketch') Clear Sketch
     canvas.full-height(ref='canvas' style='position: relative')
