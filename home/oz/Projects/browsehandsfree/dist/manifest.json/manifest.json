@@ -1,0 +1,21 @@
+{
+  "manifest_version": 2,
+  "name": "Browse Handsfree",
+  "description": "A Chrome Extension to help you browse the web handsfree!",
+  "version": "0.0.4",
+  "permissions": ["activeTab"],
+
+  "background": { "page": "index.html" },
+
+  "browser_action": {
+   "default_icon": "static/browsehandsfree-favicon",
+   "default_popup": "browse-extensions/chrome/popup.html"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ]
+}
