@@ -174,7 +174,9 @@ export default {
     sendMessageToExtension () {
       this.chromeBgPage && this.chromeBgPage.updateCursor({
         cursor: this.cursor,
-        face: this.lastFace
+        face: this.lastFace,
+        gesture: this.gesture,
+        settings: this.settings
       })
     }
   }

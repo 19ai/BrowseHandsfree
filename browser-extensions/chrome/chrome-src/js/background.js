@@ -6,7 +6,7 @@ function updateCursor (data) {
     tabs.forEach((tab) => {
       chrome.tabs.sendMessage(tab.id, {
         browsehandsfree: true,
-        method: 'positionCursor',
+        method: 'updateCursor',
         data: data
       })
     })
