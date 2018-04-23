@@ -1,5 +1,6 @@
 let $BrowseHandsfree = {
   cursor: document.createElement('div'),
+
   methods: {
     /**
      * Update the cursor position and handle gestures
@@ -14,6 +15,7 @@ let $BrowseHandsfree = {
       this.updateSettings(settings)
       this.updateCursor(cursor)
       this.updateScroll(cursor, settings)
+      this.fireEvents(cursor)
     }
   },
 
@@ -59,6 +61,52 @@ let $BrowseHandsfree = {
     scrollBy.x *= settings.cursor.scroll.sensitivityLog
     scrollBy.y *= settings.cursor.scroll.sensitivityLog
     scrollBy && window.scrollBy(scrollBy.x, scrollBy.y)
+  },
+
+  /**
+   * Fires events on elements
+   */
+  fireEvents (cursor) {
+    // Click
+    if (cursor.clicked) {
+      const $el = this.getTouchedElement(cursor)
+      if ($el) {
+        // @see https://stackoverflow.com/questions/3277369/how-to-simulate-a-click-by-using-x-y-coordinates-in-javascript
+        const ev = document.createEvent('MouseEvent')
+        ev.initMouseEvent('click', true, true, window, null, cursor.position.left, cursor.position.top, 0, 0, false, false, false, false, 0, null)
+        $el.dispatchEvent(ev)
+        console.log('clicked')
+      }
+    }
+
+    // Mousedown
+    if (!cursor.clicked && cursor.isDown) {
+      const $el = this.getTouchedElement(cursor)
+      if ($el) {
+        const ev = document.createEvent('MouseEvent')
+        ev.initMouseEvent('mousedown', true, true, window, null, cursor.position.left, cursor.position.top, 0, 0, false, false, false, false, 0, null)
+        $el.dispatchEvent(ev)
+        console.log('mousedown')
+      }
+    }
+
+    // Hover
+    if (!cursor.clicked && !cursor.isDown) {
+      const $el = this.getTouchedElement(cursor)
+      if ($el) {
+        const ev = document.createEvent('MouseEvent')
+        ev.initMouseEvent('mouseover', true, true, window, null, cursor.position.left, cursor.position.top, 0, 0, false, false, false, false, 0, null)
+        $el.dispatchEvent(ev)
+        console.log('hover')
+      }
+    }
+  },
+
+  /**
+   * Gets the element under the cursor
+   */
+  getTouchedElement (cursor) {
+    return document.elementFromPoint(cursor.position.left, cursor.position.top)
   }
 }
 
