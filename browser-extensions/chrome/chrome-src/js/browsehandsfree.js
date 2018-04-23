@@ -68,37 +68,27 @@ let $BrowseHandsfree = {
    */
   fireEvents (cursor) {
     // Click
-    if (cursor.clicked) {
-      const $el = this.getTouchedElement(cursor)
-      if ($el) {
-        // @see https://stackoverflow.com/questions/3277369/how-to-simulate-a-click-by-using-x-y-coordinates-in-javascript
-        const ev = document.createEvent('MouseEvent')
-        ev.initMouseEvent('click', true, true, window, null, cursor.position.left, cursor.position.top, 0, 0, false, false, false, false, 0, null)
-        $el.dispatchEvent(ev)
-        console.log('clicked')
-      }
-    }
+    if (cursor.clicked) this.fireEvent('click', cursor)
 
     // Mousedown
-    if (!cursor.clicked && cursor.isDown) {
-      const $el = this.getTouchedElement(cursor)
-      if ($el) {
-        const ev = document.createEvent('MouseEvent')
-        ev.initMouseEvent('mousedown', true, true, window, null, cursor.position.left, cursor.position.top, 0, 0, false, false, false, false, 0, null)
-        $el.dispatchEvent(ev)
-        console.log('mousedown')
-      }
-    }
+    if (!cursor.clicked && cursor.isDown) this.fireEvent('mousedown', click)
 
     // Hover
-    if (!cursor.clicked && !cursor.isDown) {
-      const $el = this.getTouchedElement(cursor)
-      if ($el) {
-        const ev = document.createEvent('MouseEvent')
-        ev.initMouseEvent('mouseover', true, true, window, null, cursor.position.left, cursor.position.top, 0, 0, false, false, false, false, 0, null)
-        $el.dispatchEvent(ev)
-        console.log('hover')
-      }
+    if (!cursor.clicked && !cursor.isDown) this.fireEvent('mouseover', click)
+  },
+
+  /**
+   * Fires a specific event
+   * @param  {STR} eventName The name of the event to fire
+   * @param  {OBJ} cursor    The cursor object
+   */
+  fireEvent (eventName, cursor) {
+    const $el = this.getTouchedElement(cursor)
+    if ($el) {
+      // @see https://stackoverflow.com/questions/3277369/how-to-simulate-a-click-by-using-x-y-coordinates-in-javascript
+      const ev = document.createEvent('MouseEvent')
+      ev.initMouseEvent(eventName, true, true, window, null, cursor.position.left, cursor.position.top, 0, 0, false, false, false, false, 0, null)
+      $el.dispatchEvent(ev)
     }
   },
 
