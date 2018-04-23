@@ -1,6 +1,9 @@
 let $BrowseHandsfree = {
   cursor: document.createElement('div'),
 
+  // Whether we've clicked the virtual keyboard or not
+  wasKeyboardClicked: false,
+
   methods: {
     /**
      * Update the cursor position and handle gestures
@@ -67,14 +70,38 @@ let $BrowseHandsfree = {
    * Fires events on elements
    */
   fireEvents (cursor) {
+    const $el = this.getTouchedElement(cursor)
+    const isKeyboardElement = this.isKeyboardElement($el)
+
     // Click
-    if (cursor.clicked) this.fireEvent('click', cursor)
+    if (cursor.clicked && this.canClickKeyboard(isKeyboardElement)) {
+      if ($el.nodeName === 'INPUT' || $el.nodeName === 'TEXTAREA') {
+        this.fireEvent('focus', cursor)
+      } else {
+        this.fireEvent('click', cursor)
+      }
+      $el && !this.wasKeyboardClicked && this.isKeyboardElement($el) && setTimeout(() => { this.fireEvent('mouseup', cursor) }, 0)
+    }
 
     // Mousedown
-    if (!cursor.clicked && cursor.isDown) this.fireEvent('mousedown', cursor)
+    if (!cursor.clicked && cursor.isDown && this.canClickKeyboard(isKeyboardElement)) {
+      if ($el.nodeName === 'INPUT' || $el.nodeName === 'TEXTAREA') {
+        this.fireEvent('focus', cursor)
+      } else {
+        this.fireEvent('mousedown', cursor)
+      }
+      $el && !this.wasKeyboardClicked && this.isKeyboardElement($el) && setTimeout(() => { this.fireEvent('mouseup', cursor) }, 0)
+      this.wasKeyboardClicked = true
+    }
 
     // Hover
-    if (!cursor.clicked && !cursor.isDown) this.fireEvent('mouseover', cursor)
+    if (!cursor.clicked && !cursor.isDown) setTimeout(() => this.fireEvent('mouseover', cursor), 0)
+
+    // Release the mouse click
+    if (!cursor.clicked && !cursor.isDown && this.wasKeyboardClicked) {
+      this.fireEvent('mouseup', cursor)
+      this.wasKeyboardClicked = false
+    }
   },
 
   /**
@@ -84,6 +111,7 @@ let $BrowseHandsfree = {
    */
   fireEvent (eventName, cursor) {
     const $el = this.getTouchedElement(cursor)
+
     if ($el) {
       // @see https://stackoverflow.com/questions/3277369/how-to-simulate-a-click-by-using-x-y-coordinates-in-javascript
       const ev = document.createEvent('MouseEvent')
@@ -97,7 +125,20 @@ let $BrowseHandsfree = {
    */
   getTouchedElement (cursor) {
     return document.elementFromPoint(cursor.position.left, cursor.position.top)
-  }
+  },
+
+  /**
+   * Checks if the element is a virtual keyboard element
+   */
+  isKeyboardElement ($el) {
+    return $el && ($el.classList.contains('ui-keyboard-text')
+      || $el.classList.contains('ui-keyboard-button'))
+  },
+
+  /**
+   * Checks whether we can click the keyboard
+   */
+  canClickKeyboard (isKeyboardElement) { return (isKeyboardElement && !this.wasKeyboardClicked) || !isKeyboardElement }
 }
 
 $BrowseHandsfree.cursor.id = 'browsehandsfree-cursor'
@@ -126,7 +167,6 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
  */
 jQuery(function () {
   setTimeout(function () {
-    console.log('ready')
     jQuery('input, textarea').keyboard()
   }, 500)
 })
