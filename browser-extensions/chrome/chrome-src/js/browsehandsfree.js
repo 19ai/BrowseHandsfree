@@ -102,6 +102,15 @@ let $BrowseHandsfree = {
       this.fireEvent('mouseup', cursor)
       this.wasKeyboardClicked = false
     }
+
+    // Set color
+    if (cursor.isDown) {
+      this.cursor.classList.add('browsehandsfree-pulse')
+      this.cursor.style.background = 'rgba(255, 255, 0, 0.85)'
+    } else {
+      this.cursor.classList.remove('browsehandsfree-pulse')
+      this.cursor.style.background = 'rgba(255, 0, 0, 0.85)'
+    }
   },
 
   /**

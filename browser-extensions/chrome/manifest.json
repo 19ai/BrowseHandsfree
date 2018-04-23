@@ -24,7 +24,8 @@
       ],
       "css": [
         "chrome-src/lib/keyboard/keyboard.min.css",
-        "chrome-src/lib/keyboard/keyboard-basic.min.css"
+        "chrome-src/lib/keyboard/keyboard-basic.min.css",
+        "chrome-src/styles/browsehandsfree.css"
       ]
     }
   ]
