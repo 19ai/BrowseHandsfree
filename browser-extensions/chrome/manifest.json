@@ -3,7 +3,7 @@
   "name": "Browse Handsfree",
   "description": "A Chrome Extension to help you browse the web handsfree!",
   "version": "0.0.4",
-  "permissions": ["activeTab"],
+  "permissions": ["tabs"],
   "icons": {"128": "static/browsehandsfree-favicon.png"},
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
 
@@ -17,7 +17,15 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["chrome-src/js/browsehandsfree.js"]
+      "js": [
+        "chrome-src/lib/jquery.min.js",
+        "chrome-src/lib/keyboard/jquery.keyboard.min.js",
+        "chrome-src/js/browsehandsfree.js"
+      ],
+      "css": [
+        "chrome-src/lib/keyboard/keyboard.min.css",
+        "chrome-src/lib/keyboard/keyboard-basic.min.css"
+      ]
     }
   ]
 }

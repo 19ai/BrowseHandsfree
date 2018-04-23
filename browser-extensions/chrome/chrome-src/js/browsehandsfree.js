@@ -71,10 +71,10 @@ let $BrowseHandsfree = {
     if (cursor.clicked) this.fireEvent('click', cursor)
 
     // Mousedown
-    if (!cursor.clicked && cursor.isDown) this.fireEvent('mousedown', click)
+    if (!cursor.clicked && cursor.isDown) this.fireEvent('mousedown', cursor)
 
     // Hover
-    if (!cursor.clicked && !cursor.isDown) this.fireEvent('mouseover', click)
+    if (!cursor.clicked && !cursor.isDown) this.fireEvent('mouseover', cursor)
   },
 
   /**
@@ -119,4 +119,14 @@ document.body.appendChild($BrowseHandsfree.cursor)
 chrome.runtime.onMessage.addListener((msg, sender, response) => {
   if (!msg.browsehandsfree) return
   $BrowseHandsfree.methods[msg.method].call($BrowseHandsfree, msg)
+})
+
+/**
+ * Attaches the virtual keyboard
+ */
+jQuery(function () {
+  setTimeout(function () {
+    console.log('ready')
+    jQuery('input, textarea').keyboard()
+  }, 500)
 })
