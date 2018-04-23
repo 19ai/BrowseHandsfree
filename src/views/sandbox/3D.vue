@@ -1,5 +1,5 @@
 <template lang="pug">
-  iframe(ref='container' src='/static/sandbox/demos/vrdisplay.html')
+  iframe(ref='container' src='static/sandbox/demos/vrdisplay.html')
 </template>
 
 <script>

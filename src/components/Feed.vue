@@ -8,7 +8,7 @@
           .card-body
             p Awesome, you're almost ready to start! Please wait until there's a wireframe around your face above. Once there is, it's time to test things out!
             p.text-center
-              img(src='/static/img/browsehandsfree-click-demo-2018-04-22.gif')
+              img(src='static/img/browsehandsfree-click-demo-2018-04-22.gif')
             p <abbr class="tooltip" data-tooltip="this will be configurable in the future">Smiling activates clicks</abbr>! Once you feel comfortable looking around, check out the <router-link to="/settings">Settings Page</router-link> to calibrate your machine and check out the menu to try out our different experiments!
           .card-footer.text-center
             button.btn.btn-primary(@click='stopFeed') Stop Webcam

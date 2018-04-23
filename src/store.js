@@ -47,6 +47,9 @@ export default new Vuex.Store({
     // @SEE https://tastenkunst.github.io/brfv4_docs/
     brfResolution: null,
 
+    // The chrome background page
+    chromeBgPage: null,
+
     cursor: {
       position: {
         left: 0,

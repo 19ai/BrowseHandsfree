@@ -8,6 +8,7 @@ import { mapState } from 'vuex'
 export default {
   computed: mapState([
     'brf',
+    'chromeBgPage',
     'cursor',
     'isTracking',
     'isWebcamOn',
@@ -60,6 +61,7 @@ export default {
 
       this.detectSmile(face)
       this.maybeScrollPage()
+      this.sendMessageToExtension()
     },
 
     /**
@@ -164,6 +166,16 @@ export default {
       scrollBy.x *= this.settings.cursor.scroll.sensitivityLog
       scrollBy.y *= this.settings.cursor.scroll.sensitivityLog
       scrollBy && window.scrollBy(scrollBy.x, scrollBy.y)
+    },
+
+    /**
+     * Sends data to our extensions
+     */
+    sendMessageToExtension () {
+      this.chromeBgPage && this.chromeBgPage.updateCursor({
+        cursor: this.cursor,
+        face: this.lastFace
+      })
     }
   }
 }

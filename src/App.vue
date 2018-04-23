@@ -32,6 +32,7 @@ export default {
   },
 
   computed: mapState([
+    'chromBgPage',
     'isSidebarActive',
     'isWebcamOn',
     'loadingText'
@@ -39,6 +40,9 @@ export default {
 
   mounted () {
     this.$store.commit('merge', ['refs', {webcam: this.$refs.webcam}])
+
+    // Set the chrome background page
+    if (window.chrome && window.chrome.extension) this.$store.commit('set', ['chromeBgPage', window.chrome.extension.getBackgroundPage()])
   },
 
   methods: {
