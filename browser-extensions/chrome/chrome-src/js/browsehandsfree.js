@@ -1,6 +1,9 @@
 let $BrowseHandsfree = {
   cursor: document.createElement('div'),
 
+  // Whether we have initialized the virtual keyboard yet
+  hasInitedKeyboard: false,
+
   // Whether we've clicked the virtual keyboard or not
   wasKeyboardClicked: false,
 
@@ -14,11 +17,15 @@ let $BrowseHandsfree = {
       const face = data.face
       const gesture = data.gesture
       const settings = data.settings
+      const lastFrame = data.lastFrame
 
+      this.curCycle = lastFrame
       this.updateSettings(settings)
       this.updateCursor(cursor)
       this.updateScroll(cursor, settings)
       this.fireEvents(cursor)
+
+      if (!this.hasInitedKeyboard) this.initKeyboard()
     }
   },
 
@@ -147,7 +154,23 @@ let $BrowseHandsfree = {
   /**
    * Checks whether we can click the keyboard
    */
-  canClickKeyboard (isKeyboardElement) { return (isKeyboardElement && !this.wasKeyboardClicked) || !isKeyboardElement }
+  canClickKeyboard (isKeyboardElement) { return (isKeyboardElement && !this.wasKeyboardClicked) || !isKeyboardElement },
+
+  /**
+   * Initializes the keyboard
+   */
+  initKeyboard () {
+    /**
+     * Attaches the virtual keyboard
+     */
+    jQuery(function () {
+      setTimeout(function () {
+        jQuery('input, textarea').keyboard()
+      }, 500)
+    })
+
+    this.hasInitedKeyboard = true
+  }
 }
 
 $BrowseHandsfree.cursor.id = 'browsehandsfree-cursor'
@@ -169,13 +192,4 @@ document.body.appendChild($BrowseHandsfree.cursor)
 chrome.runtime.onMessage.addListener((msg, sender, response) => {
   if (!msg.browsehandsfree) return
   $BrowseHandsfree.methods[msg.method].call($BrowseHandsfree, msg)
-})
-
-/**
- * Attaches the virtual keyboard
- */
-jQuery(function () {
-  setTimeout(function () {
-    jQuery('input, textarea').keyboard()
-  }, 500)
 })

@@ -81,9 +81,6 @@ export default new Vuex.Store({
     // There are listeners on this object (@see Pointer.vue)
     lastFace: null,
 
-    // An observable that
-    lastFaceTime: null,
-
     // The last requestAnimationFrame reference
     lastFrame: null,
 
