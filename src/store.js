@@ -47,6 +47,9 @@ export default new Vuex.Store({
     // @SEE https://tastenkunst.github.io/brfv4_docs/
     brfResolution: null,
 
+    // The chrome background page
+    chromeBgPage: null,
+
     cursor: {
       position: {
         left: 0,
@@ -71,18 +74,12 @@ export default new Vuex.Store({
     // Whether the webcam is initialized or not
     isWebcamOn: false,
 
-    // Whether the feeds are running or not
-    isFeedOn: false,
-
     // Whether we are tracking faces or not
     isTracking: false,
 
     // The last face object discovered
     // There are listeners on this object (@see Pointer.vue)
     lastFace: null,
-
-    // An observable that
-    lastFaceTime: null,
 
     // The last requestAnimationFrame reference
     lastFrame: null,

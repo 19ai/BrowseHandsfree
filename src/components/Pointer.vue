@@ -8,6 +8,7 @@ import { mapState } from 'vuex'
 export default {
   computed: mapState([
     'brf',
+    'chromeBgPage',
     'cursor',
     'isTracking',
     'isWebcamOn',
@@ -60,6 +61,7 @@ export default {
 
       this.detectSmile(face)
       this.maybeScrollPage()
+      this.sendMessageToExtension()
     },
 
     /**
@@ -164,6 +166,18 @@ export default {
       scrollBy.x *= this.settings.cursor.scroll.sensitivityLog
       scrollBy.y *= this.settings.cursor.scroll.sensitivityLog
       scrollBy && window.scrollBy(scrollBy.x, scrollBy.y)
+    },
+
+    /**
+     * Sends data to our extensions
+     */
+    sendMessageToExtension () {
+      this.chromeBgPage && this.chromeBgPage.updateCursor({
+        cursor: this.cursor,
+        face: this.lastFace,
+        gesture: this.gesture,
+        settings: this.settings
+      })
     }
   }
 }
@@ -180,19 +194,4 @@ export default {
     border-radius: 15px
     background: rgba(255, 0, 0, 0.85)
     border: 2px solid rgba(255, 0, 0, 0.85)
-
-    &.pulse
-      animation: 0.25s pulse 1
-
-@keyframes pulse
-  0%
-    box-shadow: 0 0 0 0 rgba(255, 0, 0, 0)
-  10%
-    box-shadow: 0 0 0 10px rgba(255, 50, 0, 0.25)
-  50%
-    box-shadow: 0 0 0 40px rgba(255, 155, 0, 0.65)
-  90%
-    box-shadow: 0 0 0 60px rgba(255, 255, 0, 0.25)
-  100%
-    box-shadow: 0 0 0 80px rgba(255, 255, 0, 0)
 </style>

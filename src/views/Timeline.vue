@@ -123,8 +123,6 @@ export default {
 
 <style scoped lang='stylus'>
   iframe
-    border: none
-    width: 100%
     min-height: 760px
     margin-top: 20px
 </style>

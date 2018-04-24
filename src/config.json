@@ -1,8 +1,8 @@
 {
-  "version": "v0.0.3",
+  "version": "v0.0.4",
   "brf": {
-    "wasmPath": "/static/libs/brf/brf_wasm/",
-    "asmPath": "/static/libs/brf/brf_asmjs/",
+    "wasmPath": "static/libs/brf/brf_wasm/",
+    "asmPath": "static/libs/brf/brf_asmjs/",
     "filename": "BRFv4_JS_TK190218_v4.0.5_trial.js"
   }
 }

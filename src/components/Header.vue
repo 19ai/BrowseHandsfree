@@ -1,9 +1,9 @@
 <template lang="pug">
-header.navbar
-  section.navbar-section
-    div.text-right(style='width: 100%')
-      button.btn.btn-primary.btn-action(@click='toggleMenu')
-        i.icon.icon-menu
+  header.navbar
+    section.navbar-section
+      div.text-right(style='width: 100%')
+        button.btn.btn-primary.btn-action(@click='toggleMenu')
+          i.icon.icon-menu
 </template>
 
 <script>
@@ -21,8 +21,3 @@ export default {
   }
 }
 </script>
-
-<style lang="stylus">
-  header.navbar
-    padding: 0.5rem
-</style>

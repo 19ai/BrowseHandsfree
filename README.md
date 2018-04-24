@@ -35,6 +35,13 @@ npm run build --report
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
+### Building Extensions
+Run `npm run chromify` to compile all the resources for the Chrome Extension. The string `$CONFIG.VERSION` in `popup.html` will be set to the `version` property in `/src/config.js`.
+
+The extension is automatically built when running `npm run build`, but this command can also be used when working with just the chrome extension.
+
+A `browsehandsfree.chrome.zip` will be generated in `/dist`. For testing purposes, you can load the `/dist` folder as an unpacked extension.
+
 ## Links
 * [Discussion Forum](https://forum.browsehandsfree.com/)
 * [Contributing](https://forum.browsehandsfree.com/t/becoming-a-contributor/20) to our project
